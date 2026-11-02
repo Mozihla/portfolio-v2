@@ -633,9 +633,7 @@ window.__intro = new Promise(function(done){
     + '<div class="il-foot"><div class="il-lrot"><span class="il-m"><span>More</span></span><span class="il-win"><span class="il-trk"><span>than Design</span><span>about Dammy</span></span></span></div>'
     + '<div class="il-cntw"><span class="il-lab">Loading</span><span class="il-cnt">0<i>%</i></span></div></div><span class="il-bar"></span>';
   document.body.appendChild(l); de.classList.add("intro-on");
-  var cnt = l.querySelector(".il-cnt"), bar = l.querySelector(".il-bar"), t0 = performance.now(), D = 3000;
-  requestAnimationFrame(function(){ requestAnimationFrame(function(){ l.classList.add("s1"); }); });
-  setTimeout(function(){ l.classList.add("s2"); }, RM ? 900 : 1000);
+  var cnt = l.querySelector(".il-cnt"), bar = l.querySelector(".il-bar"), t0, D = 3000;
   var curve = function(k){ return k < .45 ? .62*(1-Math.pow(1-k/.45,2)) : k < .6 ? .62 + .06*((k-.45)/.15) : .68 + .32*(1-Math.pow(1-(k-.6)/.4,3)); };
   var tick = function(t){
     var k = Math.min(1, (t-t0)/D), e = curve(k);
@@ -643,7 +641,17 @@ window.__intro = new Promise(function(done){
     if(k < 1) requestAnimationFrame(tick);
     else setTimeout(function(){ l.classList.add("out"); de.classList.remove("intro-on"); done(); setTimeout(function(){ l.remove(); }, 1100); }, 280);
   };
-  requestAnimationFrame(tick);
+  /* Start only once the tab is visible: background tabs pause animation frames but not timers, which would desync the line swap. */
+  var run = function(){
+    t0 = performance.now();
+    setTimeout(function(){ l.classList.add("s1"); }, 40);
+    setTimeout(function(){ l.classList.add("s2"); }, RM ? 900 : 1000);
+    requestAnimationFrame(tick);
+  };
+  if(document.hidden){
+    var onVis = function(){ if(!document.hidden){ document.removeEventListener("visibilitychange", onVis); run(); } };
+    document.addEventListener("visibilitychange", onVis);
+  } else run();
 });
 </script>
 <div id="app"></div>
