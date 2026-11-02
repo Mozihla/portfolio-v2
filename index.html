@@ -7,6 +7,10 @@
 <meta name="description" content="Damilola (Dammy) Olayiwola: senior product designer and design engineer. Fintech, design systems and brand for Interswitch, Renmoney, PressOne, Altovida and more.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#000000">
+<link rel="icon" href="/favicon.ico?v=cloud" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=cloud">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=cloud">
+<script>(function(){var t="dark";try{t=localStorage.getItem("theme")==="light"?"light":"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t);var m=document.querySelector('meta[name="theme-color"]');if(m)m.content=t==="light"?"#f3f1ec":"#000000";})();</script>
 <meta property="og:title" content="Dammy Olayiwola · Product Designer">
 <meta property="og:description" content="High-stakes money products, made simple enough to trust.">
 <meta property="og:type" content="website">
@@ -264,6 +268,7 @@ html:not(.scrolled) .is-home .brand .nm span{transform:translateY(110%);opacity:
 .menu-t{display:none;font-size:14px;color:var(--white)}
 .mnav{position:fixed;inset:58px 0 0 0;z-index:59;background:#000;padding:24px var(--pad);display:flex;flex-direction:column;gap:6px}
 .mnav[hidden]{display:none}
+.mnav nav{display:flex;flex-direction:column;gap:2px}
 .mnav a{font-size:40px;letter-spacing:-.04em;line-height:1.15;color:var(--white)}
 .mnav .mm{margin-top:auto;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--grey)}
 .mnav .mm a{font-size:14px;letter-spacing:0;color:var(--ink)}
@@ -597,6 +602,43 @@ a.ix-r:hover .arr{transform:translate(2px,-2px)}
 .ix.open .ix-r.xtra{display:grid}
 
 
+
+/* ===== Light mode (palette carried over from the previous portfolio) ===== */
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#f3f1ec; --bg-2:#ebe8e1; --card:#fdfcf9; --chip:#e7e4dd; --row-line:#dcd8d0; --pill-line:#d3cec5; --card-line:#c6c1b8; --rule:#d6d1c8; --black-02:#e2ded6;
+  --white:#0a0a0a; --ink:#1b1b1c; --ink-2:#3b3b3d; --grey:#66645e; --dim:#a8a49b;
+  --on-accent:#fff; --panel:#eae7e0; --panel-2:#e2dfd7; --lock-tint:#f6d9c6;
+  --logo-filter:grayscale(1) brightness(.25);
+}
+:root[data-theme="light"] .hdr{background:linear-gradient(var(--bg) 0,var(--bg) 70%,rgba(243,241,236,0))}
+:root[data-theme="light"] .mnav,:root[data-theme="light"] .veil{background:var(--bg)}
+:root[data-theme="light"] .brand .mk{background:#f3f1ec}
+:root[data-theme="light"] .hero-h .g,:root[data-theme="light"] .ab-lead .g{color:#a8a49b}
+:root[data-theme="light"] .btn{background:#0a0a0a;color:#f3f1ec}
+:root[data-theme="light"] .btn:hover{background:#2a2a2a}
+:root[data-theme="light"] .btn.ghost{background:transparent;color:var(--white)}
+:root[data-theme="light"] .btn.ghost:hover,:root[data-theme="light"] .pbtn:hover{border-color:#9a958c}
+:root[data-theme="light"] .pbtn:hover{background:#e7e4dd}
+:root[data-theme="light"] .btn.is-copied{background:var(--orange-02);color:#fff}
+:root[data-theme="light"] .tag{color:#66645e;background:#e7e4dd}
+:root[data-theme="light"] .chip[aria-pressed=true]{background:#0a0a0a;color:#f3f1ec;border-color:#0a0a0a}
+:root[data-theme="light"] .chip[aria-pressed=true] .n{color:#a8a49b}
+:root[data-theme="light"] .tool,:root[data-theme="light"] .gate-f input{background:#fdfcf9}
+:root[data-theme="light"] .cur,:root[data-theme="light"] .toast{background:#0a0a0a;color:#f3f1ec}
+/* home icon: each theme has its own cloud video, keyed to that page colour */
+.mk .hi-l{display:none}
+:root[data-theme="light"] .mk .hi-d{display:none}
+:root[data-theme="light"] .mk .hi-l{display:block}
+/* theme toggle */
+.hr{display:flex;align-items:center;gap:clamp(18px,2.4vw,44px)}
+.theme-t{width:30px;height:30px;border-radius:50%;border:1px solid var(--card-line);display:grid;place-items:center;color:var(--white);flex:none;transition:border-color .3s,color .3s}
+.theme-t:hover{color:var(--orange-02);border-color:var(--orange-02)}
+.theme-t svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round}
+.theme-t .sun{display:none}
+:root[data-theme="light"] .theme-t .sun{display:block}
+:root[data-theme="light"] .theme-t .moon{display:none}
+html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::after{transition:background-color .35s ease,color .35s ease,border-color .35s ease!important}
 /* ===== Intro loader (ported from the previous portfolio): runs on site start-up only ===== */
 .intro-l{--ease-out:cubic-bezier(.16,1,.3,1);--ease-io:cubic-bezier(.7,0,.2,1);position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;justify-content:space-between;padding:32px 40px;transition:transform 1s var(--ease-io)}
 .intro-l .il-top{display:flex;justify-content:space-between;color:var(--grey);font-family:var(--mono);font-size:12px;letter-spacing:-.01em;text-transform:uppercase}
@@ -930,16 +972,18 @@ new MutationObserver(()=>VAULT.hydrate()).observe(document.documentElement, {chi
 
 /* ========================= shared chrome ========================= */
 function Mark(){
-  if(RM) return `<img src="${HOMEICON[0]}" alt="">`;
-  return `<video autoplay muted loop playsinline disablepictureinpicture preload="auto" poster="${HOMEICON[0]}" aria-hidden="true" tabindex="-1"><source src="${HOMEICON[4]}" type="video/webm"><source src="${HOMEICON[6]}" type="video/mp4"></video>`;
+  if(RM) return `<img class="hi-d" src="${HOMEICON[0]}" alt=""><img class="hi-l" src="${HOMEICON[1]}" alt="">`;
+  const v = (c,p,w,m) => `<video class="${c}" autoplay muted loop playsinline disablepictureinpicture preload="auto" poster="${p}" aria-hidden="true" tabindex="-1"><source src="${w}" type="video/webm"><source src="${m}" type="video/mp4"></video>`;
+  return v("hi-d",HOMEICON[0],HOMEICON[4],HOMEICON[6]) + v("hi-l",HOMEICON[1],HOMEICON[5],HOMEICON[7]);
 }
 const NAV = [["Work","#work"],["Index","#index"],["Playground","#playground"],["About","#profile"],["Words","#testimonials"]];
 function Header(active){
   const items = NAV.map(([l,h]) => `<a href="${h}"${active===h.slice(1)?' aria-current="page"':''}>${l}</a>`).join("");
   return `<header class="hdr">
     <a class="brand" href="#home" aria-label="Dammy Olayiwola, home"><span class="mk">${Mark()}</span><span class="nm"><span>Dammy Olayiwola</span><span class="rl">· Product Designer</span></span></a>
-    <nav class="nav" aria-label="Main">${items}<a href="#contact" class="c">Contact</a></nav>
-    <button class="menu-t" type="button" data-menu aria-expanded="false" aria-controls="mnav">Menu</button>
+    <div class="hr"><nav class="nav" aria-label="Main">${items}<a href="#contact" class="c">Contact</a></nav>
+    <button class="theme-t" type="button" data-theme-toggle aria-label="Switch to ${document.documentElement.dataset.theme === "light" ? "dark" : "light"} mode"><svg class="moon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1z"/></svg><svg class="sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.1 1.1M11.9 11.9 13 13M3 13l1.1-1.1M11.9 4.1 13 3"/></svg></button>
+    <button class="menu-t" type="button" data-menu aria-expanded="false" aria-controls="mnav">Menu</button></div>
   </header>
   <div class="mnav" id="mnav" hidden><nav aria-label="Menu">${NAV.map(([l,h])=>`<a href="${h}">${l}</a>`).join("")}<a href="#contact">Contact</a></nav>
     <div class="mm"><span>Elsewhere</span>${ext("resume","Resume ↗")}${ext("linkedin","LinkedIn ↗")}${ext("twitter","X ↗")}${ext("folio2025","Folio 2025 ↗")}</div></div>`;
@@ -1392,6 +1436,17 @@ function render(force){
 addEventListener("hashchange", () => render());
 
 document.addEventListener("click", e => {
+  const tt = e.target.closest("[data-theme-toggle]");
+  if(tt){
+    const de = document.documentElement, next = de.dataset.theme === "light" ? "dark" : "light";
+    de.classList.add("theme-anim"); de.setAttribute("data-theme", next);
+    setTimeout(() => de.classList.remove("theme-anim"), 400);
+    try{ localStorage.setItem("theme", next); }catch(_){}
+    const m = document.querySelector('meta[name="theme-color"]'); if(m) m.content = next === "light" ? "#f3f1ec" : "#000000";
+    document.querySelectorAll("[data-theme-toggle]").forEach(b => b.setAttribute("aria-label", "Switch to " + (next === "light" ? "dark" : "light") + " mode"));
+    document.querySelectorAll(".mk video").forEach(v => { if(v.offsetParent) v.play().catch(()=>{}); });
+    return;
+  }
   const c = e.target.closest("[data-copy]");
   if(c){ e.preventDefault();
     const ok = () => { toast("Email copied — " + CONFIG.email); if(c.classList.contains("btn")){ const l = c.innerHTML; c.classList.add("is-copied"); c.textContent = "Copied ✓"; setTimeout(()=>{ c.innerHTML = l; c.classList.remove("is-copied"); }, 1800); } };
