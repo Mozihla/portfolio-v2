@@ -614,6 +614,130 @@ a.ix-r:hover .arr{transform:translate(2px,-2px)}
 .fx-st-t h3{margin:0;font-size:24px;line-height:1.2;font-weight:500;letter-spacing:.01em;color:var(--white)}
 .fx-st-t p{margin:0;font-size:16px;line-height:1.5;letter-spacing:.03em;color:var(--ink-2)}
 @media (max-width:760px){.fx-stack{padding:16px 0}.fx-st-card{border-radius:14px}.fx-st-shot{width:80%;border-radius:8px}.fx-st-t h3{font-size:20px}.fx-st-t p{font-size:15px}}
+
+/* ===== Strategy room: decks as show-and-tell (home section, deck page, presenter) ===== */
+.sr-intro{font-size:clamp(18px,1.6vw,22px);line-height:1.45;letter-spacing:-.02em;color:var(--ink);max-width:36em;margin-bottom:clamp(28px,3vw,44px)}
+.sr-intro .g{color:var(--grey)}
+.sr-nda{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--grey);border:1px solid var(--pill-line);border-radius:999px;padding:6px 11px;white-space:nowrap}
+.sr-nda svg{width:12px;height:12px;color:var(--orange-02)}
+.sr-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(28px,2.6vw,40px) clamp(16px,1.6vw,24px)}
+.sr-grid .dk-card:first-child{grid-column:span 2}
+.dk-card{display:flex;flex-direction:column;gap:16px;color:var(--white)}
+.dk-stack{position:relative;display:block;aspect-ratio:16/9;isolation:isolate}
+.dk-stack i{position:absolute;inset:0;border-radius:10px;background:var(--card);border:1px solid var(--card-line);transition:transform .7s var(--ease),opacity .5s;z-index:-1}
+.dk-stack i:nth-child(1){transform:translate(10px,-9px) scale(.97);opacity:.7}
+.dk-stack i:nth-child(2){transform:translate(20px,-18px) scale(.94);opacity:.4}
+.dk-stack img{position:relative;display:block;width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:10px;border:1px solid var(--card-line);background:var(--card);transition:transform .7s var(--ease)}
+.dk-card:hover .dk-stack i:nth-child(1){transform:translate(26px,-12px) rotate(3deg)}
+.dk-card:hover .dk-stack i:nth-child(2){transform:translate(48px,-20px) rotate(6deg);opacity:.55}
+.dk-card:hover .dk-stack img{transform:translate(-6px,4px) rotate(-1.2deg)}
+.dk-info{display:flex;flex-direction:column;gap:8px;padding-right:12px}
+.dk-k{font-size:12px;color:var(--grey);text-transform:uppercase;letter-spacing:-.01em}
+.dk-t{font-size:clamp(17px,1.3vw,20px);line-height:1.3;letter-spacing:-.02em;color:var(--white)}
+.sr-grid .dk-card:first-child .dk-t{font-size:clamp(20px,1.8vw,26px)}
+.dk-m{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.dk-m span{font-size:11px;line-height:1;padding:5px 7px;border-radius:4px;background:var(--chip);color:var(--ink-2);white-space:nowrap}
+.dk-m .dk-st{background:transparent;color:var(--orange-02);border:1px solid currentColor;padding:4px 7px}
+.dk-m .dk-st::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:currentColor;margin-right:6px;vertical-align:1px}
+@media (max-width:1000px){.sr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.sr-grid{grid-template-columns:minmax(0,1fr)}.sr-grid .dk-card:first-child{grid-column:auto}.dk-card:hover .dk-stack i:nth-child(2){transform:translate(28px,-18px) rotate(4deg)}}
+
+/* deck page */
+.dk-sub{margin-top:22px;max-width:40em;font-size:clamp(17px,1.5vw,21px);line-height:1.45;letter-spacing:-.02em;color:var(--grey)}
+.dk-hero .meta .dk-st{color:var(--orange-02)}
+.dk-cover{margin:clamp(36px,5vw,72px) 0 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,3fr);column-gap:var(--gap)}
+.dk-cover .dk-stack{grid-column:2;grid-row:1;margin-right:28px}
+.dk-cover .dk-stack i{border-radius:14px}
+.dk-cover .dk-stack i:nth-child(1){transform:translate(14px,-14px) scale(.985)}
+.dk-cover .dk-stack i:nth-child(2){transform:translate(28px,-28px) scale(.97)}
+.dk-cover .dk-stack img{border-radius:14px;object-fit:contain;background:var(--card)}
+.dk-cover figcaption{grid-column:1;grid-row:1;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;font-size:12px;color:var(--grey);text-transform:uppercase;padding-bottom:4px}
+.dk-brief{align-items:start}
+.dk-facts{display:grid;gap:18px;align-content:start}
+.dk-facts div{display:grid;gap:4px}
+.dk-facts dt{font-size:12px;color:var(--grey);text-transform:uppercase;letter-spacing:-.01em}
+.dk-facts dd{margin:0;font-size:15px;line-height:1.4;color:var(--white)}
+.dk-facts dd.on{color:var(--orange-02)}
+.dk-tell{display:grid;gap:clamp(26px,2.6vw,38px);max-width:760px}
+.dk-tell .lab{margin-bottom:10px}
+.dk-p{font-size:clamp(17px,1.45vw,20px);line-height:1.5;letter-spacing:-.02em;color:var(--ink)}
+.dk-stats{display:flex;flex-wrap:wrap;gap:clamp(24px,3vw,48px);padding-top:6px}
+.dk-stats div{display:grid;gap:6px}
+.dk-stats b{font-weight:500;font-size:clamp(34px,3.6vw,52px);line-height:1;letter-spacing:-.04em;color:var(--white)}
+.dk-stats span{font-size:13px;color:var(--grey)}
+.dk-walk{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,3fr);column-gap:var(--gap);padding:clamp(40px,5vw,72px) 0 clamp(56px,7vw,110px);border-top:1px solid var(--rule)}
+.dk-rail{position:sticky;top:84px;align-self:start;display:grid;gap:18px;padding-right:12px}
+.dk-toc{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.dk-toc a{display:grid;grid-template-columns:26px minmax(0,1fr);gap:4px 6px;padding:7px 0;color:var(--grey);font-size:14px;line-height:1.3;transition:color .3s}
+.dk-toc a span{font-size:11px;padding-top:2px;font-variant-numeric:tabular-nums}
+.dk-toc a:hover{color:var(--white)}
+.dk-toc li[aria-current="true"] a{color:var(--white)}
+.dk-toc li[aria-current="true"] a span{color:var(--orange-02)}
+.dk-toc .dk-note{grid-column:2;font-size:13px;line-height:1.5;color:var(--ink-2);max-height:0;overflow:hidden;opacity:0;transition:max-height .6s var(--ease),opacity .4s,margin .4s}
+.dk-toc li[aria-current="true"] .dk-note{max-height:12em;opacity:1;margin-top:6px}
+.dk-prog{height:2px;background:var(--rule);border-radius:2px;overflow:hidden}
+.dk-prog i{display:block;height:100%;width:100%;background:var(--orange-02);transform-origin:0 50%;transform:scaleX(0);transition:transform .4s var(--ease)}
+.dk-cnt{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;color:var(--grey);font-variant-numeric:tabular-nums}
+.dk-cnt b{font-weight:400;color:var(--white)}
+.dk-cnt .pbtn{height:32px;padding:0 12px;font-size:12px}
+.dk-flow{display:grid;gap:clamp(36px,4vw,56px)}
+.dk-flow.lk{gap:28px}
+.dk-flow.lk .dk-ch{grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.dk-flow.lk .dk-cht,.dk-flow.lk .dk-chn{grid-column:1/-1}
+.dk-flow.lk .dk-sl.tall .dk-m0{max-width:none}
+.dk-flow.lk .dk-sl figcaption{margin-top:5px}
+.dk-flow.lk .dk-ph svg{width:13px;height:13px}
+.dk-ch{display:grid;gap:14px}
+.dk-cht{display:flex;gap:10px;align-items:baseline;font-size:12px;color:var(--grey);text-transform:uppercase}
+.dk-cht span{color:var(--orange-02)}
+.dk-chn{display:none;font-size:15px;line-height:1.5;color:var(--ink-2);max-width:40em}
+.dk-sl{margin:0;position:relative}
+.dk-sl .dk-m0{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--card-line);background:var(--card)}
+.dk-sl img{display:block;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .6s}
+.dk-sl img.in{opacity:1}
+.dk-sl.tall .dk-m0{max-width:620px}
+.dk-sl figcaption{margin-top:8px;font-size:11px;color:var(--grey);font-variant-numeric:tabular-nums}
+.dk-sl button{position:absolute;inset:0;width:100%;cursor:zoom-in;z-index:1}
+.dk-ph{position:absolute;inset:0;display:grid;place-items:center;color:var(--grey);background:repeating-linear-gradient(135deg,transparent 0 14px,var(--chip) 14px 15px)}
+.dk-ph svg{width:18px;height:18px;opacity:.7}
+.dk-lockbox{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;padding:clamp(22px,2.4vw,32px);border:1px solid var(--card-line);border-radius:14px;background:var(--panel)}
+.dk-lockbox .lkic{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--lock-tint);color:var(--orange-02)}
+.dk-lockbox .lkic svg{width:16px;height:16px}
+.dk-lb-t{font-size:clamp(20px,1.8vw,24px);letter-spacing:-.03em;color:var(--white)}
+.dk-lockbox .gp{margin-top:8px;color:var(--grey);max-width:46ch}
+.dk-lockbox .gate-f{margin-top:20px}
+.dk-lockbox .gate-req{margin-top:14px;font-size:13px;color:var(--grey)}
+.dk-lockbox .gate-req a{color:var(--white);text-decoration:underline;text-underline-offset:3px}
+.dk-lockbox .gate-err{margin-top:8px;font-size:13px;color:var(--orange-02);min-height:1em}
+.dk-next{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,3fr);column-gap:var(--gap);padding:clamp(40px,5vw,72px) 0;border-top:1px solid var(--rule)}
+.dk-next .dk-card{max-width:560px}
+@media (max-width:900px){
+  .dk-walk,.dk-next{grid-template-columns:minmax(0,1fr)}
+  .dk-rail{position:sticky;top:58px;z-index:5;background:var(--bg);padding:10px 0;margin:0 0 18px;gap:8px;border-bottom:1px solid var(--rule)}
+  .dk-rail>.lab,.dk-toc{display:none}
+  .dk-chn{display:block}
+  .dk-flow.lk .dk-ch{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .dk-next .lab{margin-bottom:18px}
+  .dk-cover{grid-template-columns:minmax(0,1fr);row-gap:14px}.dk-cover .dk-stack{grid-column:1;margin-right:16px}.dk-cover figcaption{grid-row:2;flex-direction:row;justify-content:space-between}
+}
+
+/* presenter */
+.dk-pres{position:fixed;inset:0;z-index:95;background:#050505;color:#fff;display:grid;grid-template-rows:auto minmax(0,1fr) auto;opacity:0;transition:opacity .35s}
+.dk-pres.on{opacity:1}
+.dk-pres header,.dk-pres footer{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px clamp(16px,2vw,28px);font-size:13px;color:#9a9a9a}
+.dk-pres header b{font-weight:400;color:#fff}
+.dk-pres .stage{position:relative;display:grid;place-items:center;padding:0 clamp(16px,4vw,72px);min-height:0}
+.dk-pres .stage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;box-shadow:0 40px 80px -30px rgba(0,0,0,.8)}
+.dk-pres .note{max-width:60ch;color:#cfcfcf;line-height:1.5}
+.dk-pres .note i{font-style:normal;color:var(--orange-02);margin-right:8px}
+.dk-pres button{color:#fff}
+.dk-pres .nav{display:flex;gap:8px}
+.dk-pres .nav button{width:40px;height:40px;border-radius:50%;border:1px solid #333;display:grid;place-items:center}
+.dk-pres .nav button:hover{border-color:var(--orange-02);color:var(--orange-02)}
+.dk-pres .bar{position:absolute;left:0;right:0;bottom:0;height:2px;background:#1c1c1c}
+.dk-pres .bar i{display:block;height:100%;background:var(--orange-02);transform-origin:0 50%;transition:transform .35s var(--ease)}
+@media (max-width:700px){.dk-pres footer{flex-direction:column;align-items:flex-start}}
+
 /* ===== Light mode (palette carried over from the previous portfolio) ===== */
 :root[data-theme="light"]{
   color-scheme:light;
@@ -712,6 +836,11 @@ window.__intro = new Promise(function(done){
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>!function(t,i){"object"==typeof exports&&"undefined"!=typeof module?module.exports=i():"function"==typeof define&&define.amd?define(i):(t="undefined"!=typeof globalThis?globalThis:t||self).Lenis=i()}(this,(function(){"use strict";function clamp(t,i,e){return Math.max(t,Math.min(i,e))}class Animate{constructor(){this.isRunning=!1,this.value=0,this.from=0,this.to=0,this.currentTime=0}advance(t){var i;if(!this.isRunning)return;let e=!1;if(this.duration&&this.easing){this.currentTime+=t;const i=clamp(0,this.currentTime/this.duration,1);e=i>=1;const s=e?1:this.easing(i);this.value=this.from+(this.to-this.from)*s}else this.lerp?(this.value=function damp(t,i,e,s){return function lerp(t,i,e){return(1-e)*t+e*i}(t,i,1-Math.exp(-e*s))}(this.value,this.to,60*this.lerp,t),Math.round(this.value)===this.to&&(this.value=this.to,e=!0)):(this.value=this.to,e=!0);e&&this.stop(),null===(i=this.onUpdate)||void 0===i||i.call(this,this.value,e)}stop(){this.isRunning=!1}fromTo(t,i,{lerp:e,duration:s,easing:o,onStart:n,onUpdate:l}){this.from=this.value=t,this.to=i,this.lerp=e,this.duration=s,this.easing=o,this.currentTime=0,this.isRunning=!0,null==n||n(),this.onUpdate=l}}class Dimensions{constructor(t,i,{autoResize:e=!0,debounce:s=250}={}){this.wrapper=t,this.content=i,this.width=0,this.height=0,this.scrollHeight=0,this.scrollWidth=0,this.resize=()=>{this.onWrapperResize(),this.onContentResize()},this.onWrapperResize=()=>{this.wrapper instanceof Window?(this.width=window.innerWidth,this.height=window.innerHeight):(this.width=this.wrapper.clientWidth,this.height=this.wrapper.clientHeight)},this.onContentResize=()=>{this.wrapper instanceof Window?(this.scrollHeight=this.content.scrollHeight,this.scrollWidth=this.content.scrollWidth):(this.scrollHeight=this.wrapper.scrollHeight,this.scrollWidth=this.wrapper.scrollWidth)},e&&(this.debouncedResize=function debounce(t,i){let e;return function(...s){let o=this;clearTimeout(e),e=setTimeout((()=>{e=void 0,t.apply(o,s)}),i)}}(this.resize,s),this.wrapper instanceof Window?window.addEventListener("resize",this.debouncedResize,!1):(this.wrapperResizeObserver=new ResizeObserver(this.debouncedResize),this.wrapperResizeObserver.observe(this.wrapper)),this.contentResizeObserver=new ResizeObserver(this.debouncedResize),this.contentResizeObserver.observe(this.content)),this.resize()}destroy(){var t,i;null===(t=this.wrapperResizeObserver)||void 0===t||t.disconnect(),null===(i=this.contentResizeObserver)||void 0===i||i.disconnect(),this.wrapper===window&&this.debouncedResize&&window.removeEventListener("resize",this.debouncedResize,!1)}get limit(){return{x:this.scrollWidth-this.width,y:this.scrollHeight-this.height}}}class Emitter{constructor(){this.events={}}emit(t,...i){var e;let s=this.events[t]||[];for(let t=0,o=s.length;t<o;t++)null===(e=s[t])||void 0===e||e.call(s,...i)}on(t,i){var e;return(null===(e=this.events[t])||void 0===e?void 0:e.push(i))||(this.events[t]=[i]),()=>{var e;this.events[t]=null===(e=this.events[t])||void 0===e?void 0:e.filter((t=>i!==t))}}off(t,i){var e;this.events[t]=null===(e=this.events[t])||void 0===e?void 0:e.filter((t=>i!==t))}destroy(){this.events={}}}const t=100/6,i={passive:!1};class VirtualScroll{constructor(e,s={wheelMultiplier:1,touchMultiplier:1}){this.element=e,this.options=s,this.touchStart={x:0,y:0},this.lastDelta={x:0,y:0},this.window={width:0,height:0},this.emitter=new Emitter,this.onTouchStart=t=>{const{clientX:i,clientY:e}=t.targetTouches?t.targetTouches[0]:t;this.touchStart.x=i,this.touchStart.y=e,this.lastDelta={x:0,y:0},this.emitter.emit("scroll",{deltaX:0,deltaY:0,event:t})},this.onTouchMove=t=>{const{clientX:i,clientY:e}=t.targetTouches?t.targetTouches[0]:t,s=-(i-this.touchStart.x)*this.options.touchMultiplier,o=-(e-this.touchStart.y)*this.options.touchMultiplier;this.touchStart.x=i,this.touchStart.y=e,this.lastDelta={x:s,y:o},this.emitter.emit("scroll",{deltaX:s,deltaY:o,event:t})},this.onTouchEnd=t=>{this.emitter.emit("scroll",{deltaX:this.lastDelta.x,deltaY:this.lastDelta.y,event:t})},this.onWheel=i=>{let{deltaX:e,deltaY:s,deltaMode:o}=i;e*=1===o?t:2===o?this.window.width:1,s*=1===o?t:2===o?this.window.height:1,e*=this.options.wheelMultiplier,s*=this.options.wheelMultiplier,this.emitter.emit("scroll",{deltaX:e,deltaY:s,event:i})},this.onWindowResize=()=>{this.window={width:window.innerWidth,height:window.innerHeight}},window.addEventListener("resize",this.onWindowResize,!1),this.onWindowResize(),this.element.addEventListener("wheel",this.onWheel,i),this.element.addEventListener("touchstart",this.onTouchStart,i),this.element.addEventListener("touchmove",this.onTouchMove,i),this.element.addEventListener("touchend",this.onTouchEnd,i)}on(t,i){return this.emitter.on(t,i)}destroy(){this.emitter.destroy(),window.removeEventListener("resize",this.onWindowResize,!1),this.element.removeEventListener("wheel",this.onWheel,i),this.element.removeEventListener("touchstart",this.onTouchStart,i),this.element.removeEventListener("touchmove",this.onTouchMove,i),this.element.removeEventListener("touchend",this.onTouchEnd,i)}}return class Lenis{constructor({wrapper:t=window,content:i=document.documentElement,eventsTarget:e=t,smoothWheel:s=!0,syncTouch:o=!1,syncTouchLerp:n=.075,touchInertiaMultiplier:l=35,duration:r,easing:h=(t=>Math.min(1,1.001-Math.pow(2,-10*t))),lerp:a=.1,infinite:c=!1,orientation:u="vertical",gestureOrientation:d="vertical",touchMultiplier:p=1,wheelMultiplier:m=1,autoResize:v=!0,prevent:g,virtualScroll:S,__experimental__naiveDimensions:w=!1}={}){this._isScrolling=!1,this._isStopped=!1,this._isLocked=!1,this._preventNextNativeScrollEvent=!1,this._resetVelocityTimeout=null,this.time=0,this.userData={},this.lastVelocity=0,this.velocity=0,this.direction=0,this.animate=new Animate,this.emitter=new Emitter,this.onPointerDown=t=>{1===t.button&&this.reset()},this.onVirtualScroll=t=>{if("function"==typeof this.options.virtualScroll&&!1===this.options.virtualScroll(t))return;const{deltaX:i,deltaY:e,event:s}=t;if(this.emitter.emit("virtual-scroll",{deltaX:i,deltaY:e,event:s}),s.ctrlKey)return;const o=s.type.includes("touch"),n=s.type.includes("wheel");this.isTouching="touchstart"===s.type||"touchmove"===s.type;if(this.options.syncTouch&&o&&"touchstart"===s.type&&!this.isStopped&&!this.isLocked)return void this.reset();const l=0===i&&0===e,r="vertical"===this.options.gestureOrientation&&0===e||"horizontal"===this.options.gestureOrientation&&0===i;if(l||r)return;let h=s.composedPath();h=h.slice(0,h.indexOf(this.rootElement));const a=this.options.prevent;if(h.find((t=>{var i,e,s,l,r;return t instanceof HTMLElement&&("function"==typeof a&&(null==a?void 0:a(t))||(null===(i=t.hasAttribute)||void 0===i?void 0:i.call(t,"data-lenis-prevent"))||o&&(null===(e=t.hasAttribute)||void 0===e?void 0:e.call(t,"data-lenis-prevent-touch"))||n&&(null===(s=t.hasAttribute)||void 0===s?void 0:s.call(t,"data-lenis-prevent-wheel"))||(null===(l=t.classList)||void 0===l?void 0:l.contains("lenis"))&&!(null===(r=t.classList)||void 0===r?void 0:r.contains("lenis-stopped")))})))return;if(this.isStopped||this.isLocked)return void s.preventDefault();if(!(this.options.syncTouch&&o||this.options.smoothWheel&&n))return this.isScrolling="native",void this.animate.stop();s.preventDefault();let c=e;"both"===this.options.gestureOrientation?c=Math.abs(e)>Math.abs(i)?e:i:"horizontal"===this.options.gestureOrientation&&(c=i);const u=o&&this.options.syncTouch,d=o&&"touchend"===s.type&&Math.abs(c)>5;d&&(c=this.velocity*this.options.touchInertiaMultiplier),this.scrollTo(this.targetScroll+c,Object.assign({programmatic:!1},u?{lerp:d?this.options.syncTouchLerp:1}:{lerp:this.options.lerp,duration:this.options.duration,easing:this.options.easing}))},this.onNativeScroll=()=>{if(null!==this._resetVelocityTimeout&&(clearTimeout(this._resetVelocityTimeout),this._resetVelocityTimeout=null),this._preventNextNativeScrollEvent)this._preventNextNativeScrollEvent=!1;else if(!1===this.isScrolling||"native"===this.isScrolling){const t=this.animatedScroll;this.animatedScroll=this.targetScroll=this.actualScroll,this.lastVelocity=this.velocity,this.velocity=this.animatedScroll-t,this.direction=Math.sign(this.animatedScroll-t),this.isScrolling="native",this.emit(),0!==this.velocity&&(this._resetVelocityTimeout=setTimeout((()=>{this.lastVelocity=this.velocity,this.velocity=0,this.isScrolling=!1,this.emit()}),400))}},window.lenisVersion="1.1.13",t&&t!==document.documentElement&&t!==document.body||(t=window),this.options={wrapper:t,content:i,eventsTarget:e,smoothWheel:s,syncTouch:o,syncTouchLerp:n,touchInertiaMultiplier:l,duration:r,easing:h,lerp:a,infinite:c,gestureOrientation:d,orientation:u,touchMultiplier:p,wheelMultiplier:m,autoResize:v,prevent:g,virtualScroll:S,__experimental__naiveDimensions:w},this.dimensions=new Dimensions(t,i,{autoResize:v}),this.updateClassName(),this.targetScroll=this.animatedScroll=this.actualScroll,this.options.wrapper.addEventListener("scroll",this.onNativeScroll,!1),this.options.wrapper.addEventListener("pointerdown",this.onPointerDown,!1),this.virtualScroll=new VirtualScroll(e,{touchMultiplier:p,wheelMultiplier:m}),this.virtualScroll.on("scroll",this.onVirtualScroll)}destroy(){this.emitter.destroy(),this.options.wrapper.removeEventListener("scroll",this.onNativeScroll,!1),this.options.wrapper.removeEventListener("pointerdown",this.onPointerDown,!1),this.virtualScroll.destroy(),this.dimensions.destroy(),this.cleanUpClassName()}on(t,i){return this.emitter.on(t,i)}off(t,i){return this.emitter.off(t,i)}setScroll(t){this.isHorizontal?this.rootElement.scrollLeft=t:this.rootElement.scrollTop=t}resize(){this.dimensions.resize(),this.animatedScroll=this.targetScroll=this.actualScroll,this.emit()}emit(){this.emitter.emit("scroll",this)}reset(){this.isLocked=!1,this.isScrolling=!1,this.animatedScroll=this.targetScroll=this.actualScroll,this.lastVelocity=this.velocity=0,this.animate.stop()}start(){this.isStopped&&(this.isStopped=!1,this.reset())}stop(){this.isStopped||(this.isStopped=!0,this.animate.stop(),this.reset())}raf(t){const i=t-(this.time||t);this.time=t,this.animate.advance(.001*i)}scrollTo(t,{offset:i=0,immediate:e=!1,lock:s=!1,duration:o=this.options.duration,easing:n=this.options.easing,lerp:l=this.options.lerp,onStart:r,onComplete:h,force:a=!1,programmatic:c=!0,userData:u}={}){if(!this.isStopped&&!this.isLocked||a){if("string"==typeof t&&["top","left","start"].includes(t))t=0;else if("string"==typeof t&&["bottom","right","end"].includes(t))t=this.limit;else{let e;if("string"==typeof t?e=document.querySelector(t):t instanceof HTMLElement&&(null==t?void 0:t.nodeType)&&(e=t),e){if(this.options.wrapper!==window){const t=this.rootElement.getBoundingClientRect();i-=this.isHorizontal?t.left:t.top}const s=e.getBoundingClientRect();t=(this.isHorizontal?s.left:s.top)+this.animatedScroll}}if("number"==typeof t){if(t+=i,t=Math.round(t),this.options.infinite?c&&(this.targetScroll=this.animatedScroll=this.scroll):t=clamp(0,t,this.limit),t===this.targetScroll)return null==r||r(this),void(null==h||h(this));if(this.userData=null!=u?u:{},e)return this.animatedScroll=this.targetScroll=t,this.setScroll(this.scroll),this.reset(),this.preventNextNativeScrollEvent(),this.emit(),null==h||h(this),void(this.userData={});c||(this.targetScroll=t),this.animate.fromTo(this.animatedScroll,t,{duration:o,easing:n,lerp:l,onStart:()=>{s&&(this.isLocked=!0),this.isScrolling="smooth",null==r||r(this)},onUpdate:(t,i)=>{this.isScrolling="smooth",this.lastVelocity=this.velocity,this.velocity=t-this.animatedScroll,this.direction=Math.sign(this.velocity),this.animatedScroll=t,this.setScroll(this.scroll),c&&(this.targetScroll=t),i||this.emit(),i&&(this.reset(),this.emit(),null==h||h(this),this.userData={},this.preventNextNativeScrollEvent())}})}}}preventNextNativeScrollEvent(){this._preventNextNativeScrollEvent=!0,requestAnimationFrame((()=>{this._preventNextNativeScrollEvent=!1}))}get rootElement(){return this.options.wrapper===window?document.documentElement:this.options.wrapper}get limit(){return this.options.__experimental__naiveDimensions?this.isHorizontal?this.rootElement.scrollWidth-this.rootElement.clientWidth:this.rootElement.scrollHeight-this.rootElement.clientHeight:this.dimensions.limit[this.isHorizontal?"x":"y"]}get isHorizontal(){return"horizontal"===this.options.orientation}get actualScroll(){return this.isHorizontal?this.rootElement.scrollLeft:this.rootElement.scrollTop}get scroll(){return this.options.infinite?function modulo(t,i){return(t%i+i)%i}(this.animatedScroll,this.limit):this.animatedScroll}get progress(){return 0===this.limit?1:this.scroll/this.limit}get isScrolling(){return this._isScrolling}set isScrolling(t){this._isScrolling!==t&&(this._isScrolling=t,this.updateClassName())}get isStopped(){return this._isStopped}set isStopped(t){this._isStopped!==t&&(this._isStopped=t,this.updateClassName())}get isLocked(){return this._isLocked}set isLocked(t){this._isLocked!==t&&(this._isLocked=t,this.updateClassName())}get isSmooth(){return"smooth"===this.isScrolling}get className(){let t="lenis";return this.isStopped&&(t+=" lenis-stopped"),this.isLocked&&(t+=" lenis-locked"),this.isScrolling&&(t+=" lenis-scrolling"),"smooth"===this.isScrolling&&(t+=" lenis-smooth"),t}updateClassName(){this.cleanUpClassName(),this.rootElement.className=`${this.rootElement.className} ${this.className}`.trim()}cleanUpClassName(){this.rootElement.className=this.rootElement.className.replace(/lenis(-\w+)?/g,"").trim()}}}));
 //# sourceMappingURL=lenis.min.js.map
+</script>
+<script>
+/* Strategy room: public deck data + encrypted slide index */
+window.STRAT_LOCK = {"salt": "XhuxYELK66O4LQE3vpbrgw==", "iter": 310000, "iv": "fM9SvpmUifq288MY", "ct": "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"};
+window.STRAT_DOCS = [{"slug":"renmoney-design-strategy-2025","client":"Renmoney MFB","year":"2025","kind":"Team strategy","status":"","audience":"Renmoney leadership","role":"Product Design Lead, Design Manager","title":"2025 design strategy for Renmoney","sub":"A year in review and a year ahead: what design delivered in 2024, and the plan for 2025, quarter by quarter.","ask":"Going into 2025, leadership wanted two answers: what had design actually delivered, and what would it take to put Renmoney in front of most Nigerians who move money?","argument":"I led with the results of the revamp year, was honest about what could improve and why, then set one goal for 2025 and the design-led bets behind it: a new website, tier-0 onboarding and a personal finance manager among them. It closes with a quarter-by-quarter breakdown and the people and tools each part needs.","result":"The 2024 results it stands on: flows about four times faster, ₦18.7B in savings inflow, more than ₦2.4B in loan sales, and onboarding cut from 20 seconds to 10.","stats":[["4x","faster flows"],["₦18.7B","savings inflow"],["₦2.4B+","loan sales"],["10s","onboarding, from 20s"]],"chapters":[[1,"Opening","A team strategy, presented by the design lead. It starts with the destination: where Renmoney should be by the end of 2025."],[3,"2024 in review","What we set out to achieve and what we delivered, plus the extras the team added along the way, like micro-interactions and better error handling."],[5,"Wins","Retention, onboarding speed, installs, app store ratings and the new look and feel, each with its before and after."],[6,"What can improve","Honest about the limits: APIs we still needed, compliance and business requirements, and where onboarding could go further."],[7,"The 2025 goal","One sentence: put the app in front of most Nigerians who move money, whatever their age or background."],[8,"Design-led bets","The innovations that get us there, each with a note on what it is waiting on."],[9,"Quarter by quarter","A tactical breakdown from Q1 to Q4, then the hires and tools it needs, with costs."]],"cover":{"src":"/assets/bbcd5b7b95cbb40f.webp","w":1600,"h":900},"dims":[[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900]],"n":10},{"slug":"credit-direct-design-strategy","client":"Credit Direct","year":"2026","kind":"Product strategy","status":"Proposal","audience":"","role":"Product Design Strategy","title":"A product design strategy for Credit Direct’s app","sub":"A full revamp proposal: vision, values, visual language, information architecture, audiences, and the metrics to judge it by.","ask":"Credit Direct’s app had to compete with embedded-finance leaders, not just other lenders. Before deciding what a revamp should look like, we needed to agree what it should stand for.","argument":"I set a vision and guiding values for both design and UX, then the tools to reach them: typography, imagery, design language, illustration and colour, benchmarked against Klarna, Affirm and OnePay. Then a reformed information architecture, the two audiences we serve, a moodboard, projected metrics and a first look at what the app could become.","result":"It ends with the tools the team would need and the next layers of the system: motion, texture, micro-interactions and a design system.","stats":[],"chapters":[[1,"Contents","Cover and table of contents: the whole argument on one slide before any of it is made."],[3,"Vision","Ruthlessly execute standout, human-centred experiences across every credit and embedded-finance touchpoint."],[5,"Values","Design values (simplicity, taste, modern relevance, market leadership) and UX values (seamlessness, excitement, usability, accessibility)."],[7,"The toolkit","Typography, imagery, design language, illustration and colour, each argued with references, ending on the full palette."],[19,"North stars and structure","Klarna, Affirm and OnePay as benchmarks, then a reformed information architecture for the whole app."],[22,"Audience","Two segments, from the risk-aware 36 to 50s to the aspirational, convenience-first 21 to 35s, and what each needs from credit."],[24,"Metrics","What we would track first: adoption, retention, cross-selling, error management and stickiness."],[25,"What it could look like","Concept screens and art direction for the new app."],[29,"What’s next","The tools needed, the next layers of the system, and an open ask for feedback."]],"cover":{"src":"/assets/6a0fd0a43ef10db1.webp","w":1600,"h":900},"dims":[[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900]],"n":31},{"slug":"vervemobile-gtm-personas","client":"Interswitch · VerveMobile","year":"2025","kind":"GTM research","status":"Accepted","audience":"Divisional Head of User Experience","role":"Product Designer, UX Strategist","title":"Go-to-market personas for VerveMobile","sub":"Segmenting a new mobile network’s customers by how they live digitally, not by income band.","ask":"VerveMobile was entering a market of giants. It could not outspend them, so it had to out-understand the people it wanted to win.","argument":"Core competitive needs first, then demographic focus and behaviour across five age bands from 14 to 75. From there, a segmentation framework built on real digital-lifestyle behaviour, which captures Nigeria’s hybrid lives better than static economic tiers.","result":"Presented to the Divisional Head of User Experience and accepted by the wider team.","stats":[["5","age segments, 14 to 75"]],"chapters":[[1,"The idea","Cover, then the thesis: VerveMobile doesn’t need to out-shout the big players. It needs to out-understand the users."],[3,"Needs","What people actually want from a network: performance, value, rewards and utility."],[4,"Who","Five age bands, each with a profile, how they use data, and what they need."],[5,"Why behaviour wins","The strategic summary, then the segmentation framework it unlocks."],[7,"What it looks like","The idea made tangible."],[8,"Conclusion","A behaviour-led approach to segmentation and product development."]],"cover":{"src":"/assets/9438e4df0d5cd5f1.webp","w":1600,"h":900},"dims":[[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900]],"n":8},{"slug":"renmoney-outapp-widget","client":"Renmoney MFB","year":"2024","kind":"Feature pitch","status":"Approved and shipped","audience":"CPO, CEO and Deputy CEO","role":"Product Design Lead","title":"The Out-App Widget","sub":"Pitching home-screen widgets that let customers send money, buy airtime and pay bills without opening the app.","ask":"Every common task started the same way: find the app, open it, sign in. For quick, repeat actions, those steps were pure friction.","argument":"I defined the widget and showed how it shortens the path to the task, pointed to who already does it well, including Kuda and Revolut, and set out what we expected it to move: flow speed, stickiness, DAU/MAU and transaction volume. Then I put two design options on the table.","result":"Management accepted and approved it. It was implemented and picked up good traction.","stats":[],"chapters":[[1,"Opening","A product pitch to the CPO, CEO and Deputy CEO, short enough to decide on in one meeting."],[2,"What and why","What an out-app widget is, and how it helps people jump straight into the task they came for."],[4,"Proof and expectations","Who else does it, and what we expected it to move."],[5,"Two options","Two designs for how it would display, side by side, for the room to choose."],[7,"The ask","It closes by asking for feedback and a decision."]],"cover":{"src":"/assets/4808f6e5cdf4040d.webp","w":1600,"h":900},"dims":[[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900]],"n":8},{"slug":"renmoney-uxcam-pitch","client":"Renmoney MFB","year":"2025","kind":"Tool pitch","status":"Accepted and acquired","audience":"Management","role":"Product Design Lead","title":"Making the case for UXCam","sub":"A short business case for session-level UX analytics, so design decisions could be measured instead of argued.","ask":"We could see what users did in aggregate, but not where or why they struggled. Retention and drop-off were educated guesses.","argument":"What UXCam is and who already relies on it in finance, the three features that favour us (crash reporting, session recordings, and event and screen tracking down to individual inputs), the impact on retention and product discovery, and a price that fits the budget.","result":"Management accepted it. Renmoney acquired UXCam and used it to track growth and retention.","stats":[],"chapters":[[1,"Opening","A case document, not a sales deck."],[2,"What it is","UXCam in one slide, and the financial companies that already trust it."],[3,"Why it fits","Three features, each paired with what it would let us do that we couldn’t before."],[6,"Impact","What changes for the product and design teams."],[7,"Price","The cost, framed against the value."]],"cover":{"src":"/assets/09fb1d9fa3b53ae1.webp","w":1600,"h":900},"dims":[[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900]],"n":7},{"slug":"renmoney-closing-report","client":"Renmoney MFB","year":"2025","kind":"Closing report","status":"","audience":"Everyone at Renmoney","role":"Product Design Lead","title":"What users said about the new Renmoney app","sub":"My closing note when I left Renmoney: the revamp, judged by the people using it.","ask":"When I resigned, I wanted to leave the company with evidence, not opinions, about the app we had rebuilt together.","argument":"A company-wide note built only on data and customer feedback: how users rate the new app, how they describe its design and experience, and how clear and well organised they find it.","result":"It ends by crediting everyone who shipped the revamp, and asking them to tell friends and family to download it.","stats":[],"chapters":[[1,"The headline","How customers rate the new app, on one page."],[2,"Dear Renners","A short letter to the company, and how many customers answered."],[3,"What users said","Survey results on the interface, the overall experience, clarity and navigation, then a thank-you to every team behind the rollout."],[7,"Sign-off","There’s more to come: tell your friends and family."]],"cover":{"src":"/assets/518fa297c6386027.webp","w":1200,"h":1698},"dims":[[1200,1698],[1200,1698],[1200,1698],[1200,1698],[1200,1698],[1200,1698],[1200,1698]],"n":7},{"slug":"renmoney-design-direction","client":"Renmoney MFB","year":"2024","kind":"Design direction","status":"","audience":"","role":"Product Design Lead, Design Manager","title":"Giving Renmoney a design language with a spine","sub":"The concept note that took the app from functional to unmistakable: why neo-brutalism, for whom, and what it would mean for the brand.","ask":"Renmoney’s app worked, but it looked like everyone else’s. Before the revamp, the team needed one shared answer to a simple question: what should Renmoney feel like?","argument":"I anchored the direction in the company’s own vision and mission, mapped the two audiences we were really designing for, audited local competitors and international north stars, then made the case for a measured neo-brutalism: bold type, strong shapes and expressive imagery, tempered for trust.","result":"It set the visual direction for the app revamp, and closes by showing the language maturing from V1 to V2.","stats":[["7","north-star brands"],["2","target audiences"]],"chapters":[[1,"Opening","A concept note, not a mood board. It opens with the agenda so the room knows the argument before the visuals."],[3,"Vision, mission, audience","Start from the business. The company’s vision and mission set the bar; two audiences, today’s borrowers and tomorrow’s digital natives, set the constraints."],[6,"The market","A moodboard, then an honest audit of local competitors: who gets function right, who gets feeling right, and who manages neither."],[10,"The language","The core idea: a spectrum from hard brutalism to minimalism, and a deliberate point on it, neo-brutalism, for the strength and trust it signals."],[12,"North stars","Seven brands that already do this well, from Current and Revolut to Klarna and LemFi, each with the one thing worth borrowing."],[16,"What it means for Renmoney","Translating taste into rules: characterful type, vibrant colour, unusual shapes and imagery people recognise themselves in, then V1 to V2."],[19,"Goal and conclusion","Why this stands out in the market and why our audience already speaks this visual language, closing on my goals as design lead."]],"cover":{"src":"/assets/5b99c3852714aa51.webp","w":1600,"h":900},"dims":[[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900]],"n":21},{"slug":"vervemobile-soft-launch","client":"Interswitch · VerveMobile","year":"2025","kind":"Launch proposal","status":"Proposal","audience":"","role":"Product Designer, Experience Design","title":"The Big Deal Network: a soft launch for VerveMobile","sub":"An immersive booth at VerveLife 8.0 where attendees reserve a real VerveMobile number on the spot.","ask":"A new mobile network needs credibility and excitement from day one, and VerveLife 8.0 was the room to earn both.","argument":"An experience map and a simulated customer journey: an on-stage announcement, a branded LED booth, touchscreen booking pods, and a confirmation email as the first real touchpoint with the brand. Then why it matters for product, marketing and growth, and what it would take.","result":"A launch designed to be measured, not just to make noise. It closes with the funding breakdown and a simple question: shall we?","stats":[],"chapters":[[1,"The pitch","The Big Deal Network: the concept in one line."],[2,"Concept","A live, immersive introduction to the network, designed around the VerveLife 8.0 event."],[3,"Experience map","Every step of an attendee’s journey, from the announcement to a reserved number."],[4,"The journey","A simulated customer journey that feels real: see it, hear it and feel it."],[7,"Why it matters","What the launch gives product, marketing and growth."],[8,"The ask","What it would take, and the close."]],"cover":{"src":"/assets/39cf1045847dafaf.webp","w":1600,"h":900},"dims":[[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900]],"n":9},{"slug":"renmoney-q3-report-2024","client":"Renmoney MFB","year":"2024","kind":"Progress report","status":"","audience":"Renmoney management","role":"Product Design Lead, Design Manager","title":"Q3 2024: how the design team was really doing","sub":"A quarter’s honest scorecard: progress against goals, wins, problems, and what the team needed to grow.","ask":"Halfway through the revamp, management needed to know whether design was speeding things up or holding them back.","argument":"I reported against the goals set at the start of the quarter and showed the wins with numbers, then was just as direct about the problems: workload, missing roles and tracking we couldn’t yet do. Then the ideal state, and what it would take to get there.","result":"It made the case for growing the team and for proper UX tracking, which became the UXCam pitch.","stats":[],"chapters":[[1,"Opening","Journey so far: a progress report from the design team."],[2,"Goals check","Progress on each goal set at the start of Q3, as a percentage with the reason beside it."],[4,"Wins","Speed, consistency and quality, with numbers."],[5,"Problems","The uncomfortable slide: what was slowing us down, and why."],[6,"Workload and ideal state","Everything on the team’s plate, set against what a design team this size should look like."],[8,"Team and asks","What each person was doing, then two asks: more designers, and the tools and data to build a personal finance manager."],[10,"The end","We hope the next review brings problems that come from growth."]],"cover":{"src":"/assets/432b41f5ff2fceab.webp","w":1600,"h":900},"dims":[[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900]],"n":10},{"slug":"renmoney-user-personas","client":"Renmoney MFB","year":"2024","kind":"User research","status":"","audience":"Renmoney product team","role":"Product Design Lead","title":"Who Renmoney is really for: four personas","sub":"Four customers, from a trader moving to her first smartphone to an executive who banks through his assistant.","ask":"We were building for ‘Nigerians’ in general. To prioritise, the product team needed to see specific people: their money, their devices and their frustrations.","argument":"Four personas across income, age and comfort with technology. Each has financial responsibilities, tech habits, the competitors they already use, their pain points and, most importantly, where Renmoney fits in their life.","result":"It closes with action points for the product design team, built on personalisation, accessibility and trust.","stats":[["4","personas"],["28–63","age range"]],"chapters":[[1,"Why personas","Why the team needs to know customers inside out before deciding what to build."],[3,"Funke, 35","The digitally inclined petty trader in Lagos, moving from a feature phone to a smartphone and running her business on WhatsApp."],[4,"Tayo, 28","The tech-savvy young professional: several devices, lives in fintech apps."],[5,"Habeeb, 40","The digital entrepreneur and saver in Kano, managing payroll and planning ahead."],[6,"Kamal, 63","The veteran executive who prefers simple tools and relies on assistants and relationship managers."],[7,"So what","The conclusion and action points, then an open invitation for feedback."]],"cover":{"src":"/assets/118fa33348b8269c.webp","w":1600,"h":900},"dims":[[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900],[1600,900]],"n":9},{"slug":"renmoney-design-plan-2024","client":"Renmoney MFB","year":"2024","kind":"Roadmap","status":"","audience":"Renmoney product and engineering","role":"Product Design Lead","title":"Design plan for the second half of 2024","sub":"The six-month plan that turned a backlog into a timeline, with success agreed before a single screen was drawn.","ask":"With the revamp mid-build and requests coming from every team, design needed a plan the business could hold us to.","argument":"A dated timeline from July to December with named owners for each stream, and a definition of success for design: speed and quality of execution, user journeys, usability, retention, conversion and app store feedback.","result":"It became the baseline the Q3 progress report measured the team against.","stats":[["6","months, July to December"]],"chapters":[[1,"Opening","Short by design: five slides, one timeline."],[2,"Timeline","July to December, stream by stream, each with named owners."],[3,"Success metrics","What good means for design, agreed up front."],[4,"Goals of each flow","Every flow tied back to two outcomes: better usability and the business goal behind it."]],"cover":{"src":"/assets/d7788dcc651c88c5.webp","w":1600,"h":1278},"dims":[[1600,1278],[1600,1278],[1600,1278],[1600,1278],[1600,1278]],"n":5}];
 </script>
 <script>
 const ICON={"copy": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><g fill=\"none\" stroke=\"currentColor\"><rect width=\"9\" height=\"13\" x=\"6.5\" y=\"6.5\" rx=\"1.5\"/><path d=\"M8.5 6A1.5 1.5 0 0 1 10 4.5h6A1.5 1.5 0 0 1 17.5 6v10a1.5 1.5 0 0 1-1.5 1.5\"/></g></svg>", "nib": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\"><path d=\"m17.674 11.408l-1.905 5.715a.6.6 0 0 1-.398.386L3.693 20.98a.6.6 0 0 1-.74-.765L6.745 8.841a.6.6 0 0 1 .34-.365l5.387-2.218a.6.6 0 0 1 .653.13l4.404 4.406a.6.6 0 0 1 .145.614M3.296 20.602l6.364-6.364\"/><path d=\"m17.792 11.056l2.828-2.829a2 2 0 0 0 0-2.828L18.5 3.277a2 2 0 0 0-2.829 0l-2.828 2.829m-1.062 6.01a1.5 1.5 0 1 0-2.121 2.122a1.5 1.5 0 0 0 2.121-2.122\"/></g></svg>", "ideas": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M6 2.75a.75.75 0 0 0-1.219-.586c-1.31 1.049-2.023 1.968-2.398 2.768A3.96 3.96 0 0 0 2 6.75c0 .946.477 1.78 1.204 2.275a2.4 2.4 0 0 0-.506.593c-.476.77-.698 1.947-.698 3.637c0 1.712.23 3.768.605 5.41c.186.816.417 1.569.692 2.134c.137.281.304.555.51.77c.206.211.523.436.943.436s.737-.225.942-.436a3 3 0 0 0 .51-.77c.276-.566.507-1.318.693-2.135a26 26 0 0 0 .605-5.41c0-1.69-.222-2.866-.698-3.636a2.4 2.4 0 0 0-.506-.593A2.75 2.75 0 0 0 7.5 6.75c0-.927-.436-1.574-.768-2.068l-.029-.043C6.313 4.058 6 3.58 6 2.75m-2.5 4v-.001c0-.298 0-.665.242-1.18c.168-.361.469-.819 1.012-1.371c.193.517.463.92.692 1.26l.012.018c.357.531.542.835.542 1.274a1.25 1.25 0 0 1-2.5 0m0 6.505c0-1.623.226-2.447.474-2.849a.8.8 0 0 1 .325-.317a1 1 0 0 1 .451-.084c.2 0 .343.031.451.084c.1.048.212.135.325.317c.248.402.474 1.226.474 2.849c0 1.601-.218 3.545-.567 5.076c-.176.77-.376 1.395-.579 1.811a3 3 0 0 1-.104.195a3 3 0 0 1-.104-.195c-.203-.416-.403-1.042-.579-1.811a24.6 24.6 0 0 1-.567-5.076m4.984.822a5 5 0 0 0 1.516.398V12.25A3.25 3.25 0 0 1 13.25 9h2.225a5 5 0 0 0-7.344-3.904a6.4 6.4 0 0 0-.548-.94l-.05-.074l-.179-.272A6.5 6.5 0 0 1 16.981 9h1.769A3.25 3.25 0 0 1 22 12.25v5.5A3.25 3.25 0 0 1 18.75 21h-5.5A3.25 3.25 0 0 1 10 17.75v-1.769a6.5 6.5 0 0 1-1.621-.335c.05-.53.086-1.058.105-1.569M18.75 10.5h-1.826a6.505 6.505 0 0 1-5.424 5.424v1.826c0 .966.784 1.75 1.75 1.75h5.5a1.75 1.75 0 0 0 1.75-1.75v-5.5a1.75 1.75 0 0 0-1.75-1.75m-7.25 3.9a5.01 5.01 0 0 0 3.9-3.9h-2.15a1.75 1.75 0 0 0-1.75 1.75z\"/></svg>", "strategy": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M5.596 10.629L3.404 9.377q-.182-.1-.293-.29Q3 8.895 3 8.674V6.171q0-.22.111-.411t.293-.29l2.192-1.253q.18-.105.401-.105q.22 0 .407.105L8.596 5.47q.182.1.293.291t.111.41v2.504q0 .22-.111.411t-.293.291l-2.192 1.252q-.18.106-.401.106q-.22 0-.407-.106M6 9.7l2-1.138V6.285L6 5.146L4 6.285v2.277zm10.27 1.229V9.777l1.922 1.129q.384.22.596.59t.212.789v4.584q0 .42-.212.79t-.596.589l-3.884 2.268q-.385.217-.811.217t-.805-.217l-3.884-2.268q-.384-.22-.596-.59Q8 17.29 8 16.87v-4.584q0-.42.212-.79t.596-.59l1.923-1.128v1.152L9 11.939v5.279l4.5 2.61l4.5-2.61v-5.28zM14 8v5.5q0 .213-.144.356t-.357.144t-.356-.144T13 13.5V3.808q0-.343.232-.576T13.808 3h5.683q.475 0 .712.429q.238.429-.036.833l-.523.784q-.136.205-.136.45t.136.458l.523.785q.273.403.036.832T19.491 8zm-8-.577\"/></svg>", "figma": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"256\" height=\"384\" viewBox=\"0 0 256 384\"><path fill=\"#0acf83\" d=\"M64 384c35.328 0 64-28.672 64-64v-64H64c-35.328 0-64 28.672-64 64s28.672 64 64 64\"/><path fill=\"#a259ff\" d=\"M0 192c0-35.328 28.672-64 64-64h64v128H64c-35.328 0-64-28.672-64-64\"/><path fill=\"#f24e1e\" d=\"M0 64C0 28.672 28.672 0 64 0h64v128H64C28.672 128 0 99.328 0 64\"/><path fill=\"#ff7262\" d=\"M128 0h64c35.328 0 64 28.672 64 64s-28.672 64-64 64h-64z\"/><path fill=\"#1abcfe\" d=\"M256 192c0 35.328-28.672 64-64 64s-64-28.672-64-64s28.672-64 64-64s64 28.672 64 64\"/></svg>", "claude": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"256\" height=\"257\" viewBox=\"0 0 256 257\"><path fill=\"#d97757\" d=\"m50.228 170.321l50.357-28.257l.843-2.463l-.843-1.361h-2.462l-8.426-.518l-28.775-.778l-24.952-1.037l-24.175-1.296l-6.092-1.297L0 125.796l.583-3.759l5.12-3.434l7.324.648l16.202 1.101l24.304 1.685l17.629 1.037l26.118 2.722h4.148l.583-1.685l-1.426-1.037l-1.101-1.037l-25.147-17.045l-27.22-18.017l-14.258-10.37l-7.713-5.25l-3.888-4.925l-1.685-10.758l7-7.713l9.397.649l2.398.648l9.527 7.323l20.35 15.75L94.817 91.9l3.889 3.24l1.555-1.102l.195-.777l-1.75-2.917l-14.453-26.118l-15.425-26.572l-6.87-11.018l-1.814-6.61c-.648-2.723-1.102-4.991-1.102-7.778l7.972-10.823L71.42 0l10.63 1.426l4.472 3.888l6.61 15.101l10.694 23.786l16.591 32.34l4.861 9.592l2.592 8.879l.973 2.722h1.685v-1.556l1.36-18.211l2.528-22.36l2.463-28.776l.843-8.1l4.018-9.722l7.971-5.25l6.222 2.981l5.12 7.324l-.713 4.73l-3.046 19.768l-5.962 30.98l-3.889 20.739h2.268l2.593-2.593l10.499-13.934l17.628-22.036l7.778-8.749l9.073-9.657l5.833-4.601h11.018l8.1 12.055l-3.628 12.443l-11.342 14.388l-9.398 12.184l-13.48 18.147l-8.426 14.518l.778 1.166l2.01-.194l30.46-6.481l16.462-2.982l19.637-3.37l8.88 4.148l.971 4.213l-3.5 8.62l-20.998 5.184l-24.628 4.926l-36.682 8.685l-.454.324l.519.648l16.526 1.555l7.065.389h17.304l32.21 2.398l8.426 5.574l5.055 6.805l-.843 5.184l-12.962 6.611l-17.498-4.148l-40.83-9.721l-14-3.5h-1.944v1.167l11.666 11.406l21.387 19.314l26.767 24.887l1.36 6.157l-3.434 4.86l-3.63-.518l-23.526-17.693l-9.073-7.972l-20.545-17.304h-1.36v1.814l4.73 6.935l25.017 37.59l1.296 11.536l-1.814 3.76l-6.481 2.268l-7.13-1.297l-14.647-20.544l-15.1-23.138l-12.185-20.739l-1.49.843l-7.194 77.448l-3.37 3.953l-7.778 2.981l-6.48-4.925l-3.436-7.972l3.435-15.749l4.148-20.544l3.37-16.333l3.046-20.285l1.815-6.74l-.13-.454l-1.49.194l-15.295 20.999l-23.267 31.433l-18.406 19.702l-4.407 1.75l-7.648-3.954l.713-7.064l4.277-6.286l25.47-32.405l15.36-20.092l9.917-11.6l-.065-1.686h-.583L44.07 198.125l-12.055 1.555l-5.185-4.86l.648-7.972l2.463-2.593l20.35-13.999z\"/></svg>", "chatgpt": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"48\" height=\"48\" viewBox=\"0 0 48 48\"><path fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" d=\"M18.38 27.94v-14.4l11.19-6.46c6.2-3.58 17.3 5.25 12.64 13.33\"/><path fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" d=\"m18.38 20.94l12.47-7.2l11.19 6.46c6.2 3.58 4.1 17.61-5.23 17.61\"/><path fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" d=\"m24.44 17.44l12.47 7.2v12.93c0 7.16-13.2 12.36-17.86 4.28\"/><path fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" d=\"M30.5 21.2v14.14L19.31 41.8c-6.2 3.58-17.3-5.25-12.64-13.33\"/><path fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" d=\"m30.5 27.94l-12.47 7.2l-11.19-6.46c-6.21-3.59-4.11-17.61 5.22-17.61\"/><path fill=\"none\" stroke=\"currentColor\" stroke-linejoin=\"round\" d=\"m24.44 31.44l-12.47-7.2V11.31c0-7.16 13.2-12.36 17.86-4.28\"/></svg>", "notion": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M5.716 5.506c.622.506.855.467 2.023.39l11.013-.662c.233 0 .039-.233-.039-.272L16.884 3.64c-.35-.272-.817-.583-1.712-.506l-10.663.778c-.39.039-.467.233-.312.39zm.66 2.567V19.66c0 .622.312.855 1.012.817l12.103-.7c.7-.039.779-.467.779-.973V7.294c0-.504-.194-.777-.623-.738l-12.648.739c-.467.039-.622.272-.622.778m11.948.621c.078.35 0 .7-.35.74l-.584.116v8.555c-.506.272-.973.427-1.362.427c-.623 0-.779-.194-1.245-.777l-3.815-5.988v5.793l1.207.273s0 .7-.973.7l-2.685.155c-.078-.156 0-.544.272-.622l.7-.194v-7.66l-.972-.079c-.078-.35.116-.855.662-.894l2.88-.194l3.97 6.066V9.745l-1.013-.116c-.078-.429.233-.74.623-.778zM3.614 2.862l11.09-.816c1.363-.117 1.713-.039 2.57.583l3.54 2.488c.584.428.779.545.779 1.011v13.649c0 .855-.312 1.36-1.401 1.438l-12.88.778c-.819.04-1.208-.077-1.636-.622l-2.607-3.383c-.467-.623-.662-1.089-.662-1.634V4.223c0-.7.312-1.283 1.206-1.36\" clip-rule=\"evenodd\"/></svg>"};
@@ -833,6 +962,8 @@ const CONFIG = {
 const HOMEICON = ["/assets/69bd8e3466f565ef.webp", "/assets/5b8f7fd8590504ea.webp", "/assets/69bd8e3466f565ef.webp", "/assets/5b8f7fd8590504ea.webp", "/assets/29fdc52003a839b3.webm", "/assets/abe21be34a16e57a.webm", "/assets/8cc3b6e28ed1daaa.mp4", "/assets/8a4a1cdf2f6149b9.mp4"];
 
 /* [company, year, title, slug | "request", category p/d/b/o, tag] — order = display order */
+const STRATS = window.STRAT_DOCS || [];
+const STRAT = Object.fromEntries(STRATS.map((d,i)=>[d.slug,i]));
 const WORK_ALL = [
   ["Renmoney MFB","2024","Loan Flow Optimization","renmoney-loan-optimization","p"],
   ["Renmoney MFB","2024","Full App Revamp","renmoney-product-revamp-2","p"],
@@ -858,6 +989,17 @@ const WORK_ALL = [
   ["Rivr","2026","Brand Identity Design","rivr-branding","b"],
   ["Dropcart","2026","Brand Identity Design","dropcart-branding","b"],
   ["Drop","2026","Brand Identity Design","drop-branding","b"],
+  ["Renmoney MFB","2025","2025 Design Strategy","renmoney-design-strategy-2025","s"],
+  ["Credit Direct","2026","Mobile App Product Design Strategy","credit-direct-design-strategy","s"],
+  ["Interswitch Group","2025","GTM Persona Segmentation","vervemobile-gtm-personas","s"],
+  ["Renmoney MFB","2024","Out-App Widget Pitch","renmoney-outapp-widget","s"],
+  ["Renmoney MFB","2025","UXCam Tool Pitch","renmoney-uxcam-pitch","s"],
+  ["Renmoney MFB","2025","New App Customer Report","renmoney-closing-report","s"],
+  ["Renmoney MFB","2024","Design Direction & Language","renmoney-design-direction","s"],
+  ["Interswitch Group","2025","Soft Launch Experience Proposal","vervemobile-soft-launch","s"],
+  ["Renmoney MFB","2024","Q3 Design Progress Report","renmoney-q3-report-2024","s"],
+  ["Renmoney MFB","2024","User Personas","renmoney-user-personas","s"],
+  ["Renmoney MFB","2024","Design Plan H2 2024","renmoney-design-plan-2024","s"],
   ["PressOne Africa","2024","Payment and Exit Intent Flows","pressone-payment-exit-flows","o"],
   ["Intel AI","2024","AI Platform for Web3 Founders","intelai-platform","o"],
   ["Strategy 360","2023","AI for Smart Business Strategy","strategy-360-smart-business","o"],
@@ -871,11 +1013,9 @@ const WORK_ALL = [
   ["Made by Dammy","2025","Logo Folio","made-by-dammy-logo-folio","o","WIP"],
   ["Igho Maraki","2024","Igho Maraki Branding","igho-maraki-branding","o","WIP"],
   ["PressOne Africa","2024","Email Template Designs","pressone-email-templates","o","WIP"],
-  ["Renmoney MFB","2024","Design Vision Strategy","renmoney-design-vision-strategy","o","WIP"],
   ["Interswitch Group","2025","GTM Data Strategy","request","o","AuR"],
   ["Doshpal Finance","2025","Product Strategy","request","o","AuR"],
-  ["Renmoney MFB","2024","Product Strategy","request","o","AuR"],
-  ["Renmoney MFB","2024","Product User Persona","request","o","AuR"]
+  ["Renmoney MFB","2024","Product Strategy","request","o","AuR"]
 ];
 let VIS = (typeof window !== "undefined" && window.VIS) || {};
 const keyOf = w => w[3] === "request" ? "request:" + w[2] : w[3];
@@ -893,8 +1033,8 @@ async function syncVis(){
     if(j.vis && JSON.stringify(j.vis) !== JSON.stringify(VIS)){ setVis(j.vis); render(true); }
   }catch(e){}
 }
-const FILTERS = [["all","All",""],["product-design","Product","p"],["design-systems","Design systems","d"],["brand-design","Brand","b"],["others","Other","o"]];
-const CAT_LABEL = {p:"Product design", d:"Design system", b:"Brand identity", o:"Other"};
+const FILTERS = [["all","All",""],["product-design","Product","p"],["design-systems","Design systems","d"],["brand-design","Brand","b"],["strategy-decks","Strategy","s"],["others","Other","o"]];
+const CAT_LABEL = {p:"Product design", d:"Design system", b:"Brand identity", s:"Strategy", o:"Other"};
 
 /* Featured work: the stories that position Dammy best (fintech outcomes → systems → brand) */
 const FEATURED = [
@@ -955,7 +1095,37 @@ const VAULT = (()=>{
     const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(code), "PBKDF2", false, ["deriveKey"]);
     return crypto.subtle.deriveKey({name:"PBKDF2", salt:b64(L.salt), iterations:L.iter, hash:"SHA-256"}, base, {name:"AES-GCM", length:256}, false, ["decrypt"]);
   }
+  /* Strategy decks: their own salt, same access code, so one code opens both */
+  const S = window.STRAT_LOCK || null; let skey = null, SMAP = null; const sblobs = new Map();
+  async function unlockS(code){
+    if(skey) return true;
+    if(!S || !/^\d{4}$/.test(code) || !crypto.subtle) return false;
+    try{
+      const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(code), "PBKDF2", false, ["deriveKey"]);
+      const k = await crypto.subtle.deriveKey({name:"PBKDF2", salt:b64(S.salt), iterations:S.iter, hash:"SHA-256"}, base, {name:"AES-GCM", length:256}, false, ["decrypt"]);
+      const pt = await crypto.subtle.decrypt({name:"AES-GCM", iv:b64(S.iv)}, k, b64(S.ct));
+      SMAP = JSON.parse(new TextDecoder().decode(pt)); skey = k;
+      try{ sessionStorage.setItem("ssk", code); }catch(e){}
+      return true;
+    }catch(e){ return false; }
+  }
+  function simg(slug, k){
+    const path = SMAP && SMAP[slug] && SMAP[slug][k]; if(!path) return Promise.reject();
+    if(sblobs.has(path)) return sblobs.get(path);
+    const p = fetch(path).then(r=>r.arrayBuffer()).then(b=>{ const u = new Uint8Array(b); return crypto.subtle.decrypt({name:"AES-GCM", iv:u.subarray(0,12)}, skey, u.subarray(12)); })
+      .then(pt=>URL.createObjectURL(new Blob([pt],{type:"image/webp"})));
+    sblobs.set(path, p); return p;
+  }
+  function shydrate(slug){
+    if(!skey) return;
+    document.querySelectorAll("img[data-sv]").forEach(i => { if(i.dataset.done) return; i.dataset.done = 1;
+      simg(slug, +i.dataset.sv).then(u => { i.src = u; i.onload = () => i.classList.add("in"); }).catch(()=>{}); });
+  }
   async function unlock(code){
+    const s = await unlockS(code), d = await unlockDS(code);
+    return s || d;
+  }
+  async function unlockDS(code){
     if(key) return true;
     if(!/^\d{4}$/.test(code) || !crypto.subtle) return false;
     try{
@@ -978,10 +1148,11 @@ const VAULT = (()=>{
     if(!key) return;
     root.querySelectorAll('img[src*="#v="]').forEach(i => { const path = i.getAttribute("src").split("#v=")[1]; img(path).then(u=>{ i.src = u; }).catch(()=>{}); });
   }
-  return { items, unlock, hydrate, locked: slug => slug in items && !(slug in CASE) };
+  return { items, unlock, hydrate, locked: slug => slug in items && !(slug in CASE), unlockS, sOpen: () => !!skey, simg, shydrate };
 })();
 new MutationObserver(()=>VAULT.hydrate()).observe(document.documentElement, {childList:true, subtree:true, attributes:true, attributeFilter:["src"]});
-(()=>{ let c=null; try{ c = sessionStorage.getItem("dsk"); }catch(e){} if(c) VAULT.unlock(c).then(ok=>{ if(ok && /^#work\//.test(location.hash) && $(".gate")) render(true); }); })();
+(()=>{ let c=null; try{ c = sessionStorage.getItem("ssk"); }catch(e){} if(c) VAULT.unlockS(c).then(ok=>{ if(ok && /^#work\//.test(location.hash) && $(".dk-lockbox")) render(true); }); })();
+(()=>{ let c=null; try{ c = sessionStorage.getItem("dsk"); }catch(e){} if(c) VAULT.unlock(c).then(ok=>{ if(ok && /^#work\//.test(location.hash) && ($(".gate") || $(".dk-lockbox"))) render(true); }); })();
 
 /* ========================= shared chrome ========================= */
 function Mark(){
@@ -1101,6 +1272,7 @@ function IndexRow(w){
   const k = `data-k="${WORK.indexOf(w)}"`;
   if(st==="soon") return `<div class="ix-r soon" ${k} aria-disabled="true">${cells(`${LOCK_IC}Soon`)}</div>`;
   if(VAULT.locked(slug)) return `<a class="ix-r" ${k} href="#work/${slug}" data-cur="Locked">${cells(`${LOCK_IC}NDA`)}</a>`;
+  if(slug in STRAT) return `<a class="ix-r" ${k} href="#work/${slug}" data-cur="Open deck">${cells(`${LOCK_IC}Deck <span class="arr">↗</span>`)}</a>`;
   if(internal) return `<a class="ix-r" ${k} href="#work/${slug}" data-peek="${slug}">${cells(`View <span class="arr">↗</span>`)}</a>`;
   if(req) return `<a class="ix-r" ${k} href="${CONFIG.linkedin}" target="_blank" rel="noopener" data-cur="Ask on LinkedIn">${cells(`On request <span class="arr">↗</span>`)}</a>`;
   return `<div class="ix-r soon" ${k}>${cells("Soon")}</div>`;
@@ -1175,7 +1347,7 @@ function Teaser(){
     </div></section>`;
 }
 function Home(){
-  return `<div class="page is-home">${Header("")}<main>${Hero()}${Featured()}${Outcomes()}${Index()}${About()}${Teaser()}${WordsStrip()}</main>${Contact()}</div>`;
+  return `<div class="page is-home">${Header("")}<main>${Hero()}${Featured()}${Outcomes()}${StrategyRoom()}${Index()}${About()}${Teaser()}${WordsStrip()}</main>${Contact()}</div>`;
 }
 
 /* ========================= Profile (long About) ========================= */
@@ -1348,12 +1520,121 @@ document.addEventListener("submit", async e => {
   e.preventDefault();
   const inp = f.querySelector("input"), err = f.parentNode.querySelector(".gate-err"), btn = f.querySelector("button");
   btn.disabled = true; btn.textContent = "Checking…"; err.textContent = "";
-  const ok = await VAULT.unlock(inp.value.trim());
+  const isDeck = f.dataset.gate.startsWith("deck:"), ok = isDeck ? await VAULT.unlockS(inp.value.trim()) : await VAULT.unlock(inp.value.trim());
   btn.disabled = false; btn.textContent = "Unlock";
   if(ok){ toast("Unlocked"); render(true); }
   else { err.textContent = "That code didn’t work. Check it and try again."; f.classList.remove("shake"); void f.offsetWidth; f.classList.add("shake"); inp.select(); }
 });
 document.addEventListener("input", e => { if(e.target.matches(".gate-f input")) e.target.value = e.target.value.replace(/\D/g,"").slice(0,4); });
+
+
+/* ========================= Strategy room: decks as show-and-tell ========================= */
+const PX1 = "data:image/gif;base64,R0lGODlhAQABAAAAACw=";
+const isTall = ([w,h]) => h > w*1.2;
+const unitOf = d => isTall(d.dims[0]) ? "pages" : "slides";
+const chRanges = d => d.chapters.map(([a,t,n],i)=>({a, b:(d.chapters[i+1]?d.chapters[i+1][0]:d.n+1)-1, t, n}));
+
+function DeckCard(d, big){
+  return `<a class="dk-card" href="#work/${d.slug}" data-cur="Open deck" data-r>
+    <span class="dk-stack"><i></i><i></i><img src="${d.cover.src}" width="${d.cover.w}" height="${d.cover.h}" alt="${esc(d.title)}, cover" loading="lazy" decoding="async"></span>
+    <span class="dk-info"><span class="dk-k">${esc(d.client)} · ${d.year}</span><span class="dk-t">${esc(d.title)}</span>
+      <span class="dk-m"><span>${esc(d.kind)}</span>${d.status?`<span class="dk-st">${esc(d.status)}</span>`:""}<span>${d.n} ${unitOf(d)}</span></span></span></a>`;
+}
+function StrategyRoom(){
+  if(!STRATS.length) return "";
+  return `<section class="wrap sec" id="strategy">
+    <div class="shead"><h2 class="h-xl" data-r>${split("Strategy room")}<sup>(${pad2(STRATS.length)})</sup></h2><span class="sr-nda">${LOCK_IC}Slides under NDA</span></div>
+    <div class="row nb" style="padding-top:0"><p class="lab">Decks, plans and pitches</p><div>
+      <p class="sr-intro" data-r>The thinking behind the screens. Direction, plans, pitches and reports I wrote for CEOs, product leads and teams. <span class="g">The story behind each one is open to everyone; the slides unlock with an access code.</span></p>
+      <div class="sr-grid">${STRATS.map((d,i)=>DeckCard(d,i===0)).join("")}</div></div></div></section>`;
+}
+
+function Deck(slug){
+  const d = STRATS[STRAT[slug]], open = VAULT.sOpen(), unit = unitOf(d), n = d.n;
+  const mail = `mailto:${CONFIG.email}?subject=${encodeURIComponent("Access request: "+d.title)}`;
+  const chs = chRanges(d);
+  const fact = (k,v,cls="") => v ? `<div><dt>${k}</dt><dd class="${cls}">${esc(v)}</dd></div>` : "";
+  const stats = d.stats.length ? `<div class="dk-stats" data-r>${d.stats.map(([v,l])=>`<div><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join("")}</div>` : "";
+  const slide = k => { const dm = d.dims[k], tall = isTall(dm);
+    const media = open ? `<img data-sv="${k}" src="${PX1}" alt="${esc(d.title)}, ${unit.slice(0,-1)} ${k+1}" width="${dm[0]}" height="${dm[1]}">` : `<span class="dk-ph">${LOCK_IC}</span>`;
+    return `<figure class="dk-sl${tall?" tall":""}" data-k="${k}"><div class="dk-m0" style="aspect-ratio:${dm[0]}/${dm[1]}">${media}${open?`<button type="button" data-present="${k}" aria-label="Present from ${unit.slice(0,-1)} ${k+1}"></button>`:""}</div><figcaption>${pad2(k+1)} / ${pad2(n)}</figcaption></figure>`; };
+  const flow = chs.map((c,i)=>`<div class="dk-ch" id="dc${i}" data-ch="${i}"><p class="dk-cht"><span>${pad2(i+1)}</span>${esc(c.t)}</p><p class="dk-chn">${esc(c.n)}</p>
+      ${Array.from({length:c.b-c.a+1},(_,j)=>slide(c.a-1+j)).join("")}</div>`).join("");
+  const toc = chs.map((c,i)=>`<li data-ch="${i}"${i===0?' aria-current="true"':""}><a href="#work/${slug}" data-go="dc${i}"><span>${pad2(i+1)}</span>${esc(c.t)}<p class="dk-note">${esc(c.n)}</p></a></li>`).join("");
+  const lock = open ? "" : `<div class="dk-lockbox" data-r><span class="lkic">${LOCK_IC}</span><div>
+      <p class="dk-lb-t">The ${unit} are under NDA</p>
+      <p class="gp">Enter the access code Dammy shared with you to read all ${n} ${unit}. The story above stays open to everyone.</p>
+      <form class="gate-f" data-gate="deck:${slug}" autocomplete="off"><input name="code" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="····" aria-label="Access code" autocomplete="one-time-code" required><button class="btn" type="submit">Unlock</button></form>
+      <p class="gate-err" role="alert" aria-live="polite"></p>
+      <p class="gate-req">No code? <a href="${mail}">Request access by email</a> or <a href="${CONFIG.linkedin}" target="_blank" rel="noopener">ask on LinkedIn</a>.</p></div></div>`;
+  const i = STRAT[slug], nx = STRATS[(i+1)%STRATS.length];
+  return `<div class="page">${Header("")}<main class="wrap">
+    <section class="ph dk-hero"><a class="back" href="#strategy">← Strategy room</a><p class="lab lab-p g sm" style="margin-bottom:18px">${esc(d.kind)}</p>
+      <h1 class="h-xl" data-r>${split(d.title)}</h1><p class="dk-sub" data-r>${esc(d.sub)}</p>
+      <div class="meta tnum"><span>${esc(d.client)}</span><span>${d.year}</span><span>${n} ${unit}</span>${d.status?`<span class="dk-st"><i class="dot" style="margin-right:6px"></i>${esc(d.status)}</span>`:""}</div></section>
+    <figure class="dk-cover" data-r><span class="dk-stack"><i></i><i></i><img src="${d.cover.src}" width="${d.cover.w}" height="${d.cover.h}" alt="${esc(d.title)}, cover" decoding="async"></span>
+      <figcaption><span>01 / ${pad2(n)} · Cover</span><span>${open?"Unlocked":LOCK_IC.replace("<svg",'<svg style="width:11px;height:11px;vertical-align:-1px;margin-right:5px"')+"The rest is under NDA"}</span></figcaption></figure>
+    <section class="row dk-brief"><dl class="dk-facts" data-r>${fact("Client",d.client)}${fact("Year",d.year)}${fact("Format",`Deck · ${n} ${unit}`)}${fact("Presented to",d.audience)}${fact("My role",d.role)}${fact("Outcome",d.status,"on")}</dl>
+      <div class="dk-tell"><div data-r><p class="lab">The ask</p><p class="dk-p">${esc(d.ask)}</p></div>
+        <div data-r><p class="lab">The argument</p><p class="dk-p">${esc(d.argument)}</p></div>
+        <div data-r><p class="lab">What happened</p><p class="dk-p">${esc(d.result)}</p></div>${stats}</div></section>
+    <section class="dk-walk" id="deck"><aside class="dk-rail"><p class="lab">Walkthrough</p><ol class="dk-toc">${toc}</ol>
+        <div class="dk-prog"><i></i></div><p class="dk-cnt"><span><b class="dk-at">01</b> / ${pad2(n)}</span>${open?`<button type="button" class="pbtn" data-present="0">▶ Present</button>`:`<span>${LOCK_IC.replace("<svg",'<svg style="width:11px;height:11px;vertical-align:-1px"')}</span>`}</p></aside>
+      <div class="dk-flow${open?"":" lk"}">${lock}${flow}</div></section>
+    <section class="dk-next"><p class="lab">Next deck</p>${DeckCard(nx)}</section>
+  </main>${Contact()}</div>`;
+}
+
+let deckObs = null;
+function wireDeck(){
+  if(deckObs) deckObs.disconnect();
+  const slug = (location.hash||"").slice(6), d = STRATS[STRAT[slug]]; if(!d) return;
+  VAULT.shydrate(slug);
+  const at = $(".dk-at"), bar = $(".dk-prog i"), lis = [...document.querySelectorAll(".dk-toc li")];
+  const setCh = i => lis.forEach(l => l.setAttribute("aria-current", l.dataset.ch === String(i)));
+  deckObs = new IntersectionObserver(es => es.forEach(e => {
+    if(!e.isIntersecting) return;
+    const f = e.target, k = +f.dataset.k;
+    if(at) at.textContent = pad2(k+1);
+    if(bar) bar.style.transform = `scaleX(${(k+1)/d.n})`;
+    setCh(f.closest(".dk-ch").dataset.ch);
+  }), {rootMargin:"-45% 0px -45% 0px"});
+  document.querySelectorAll(".dk-sl").forEach(f => deckObs.observe(f));
+}
+document.addEventListener("click", e => {
+  const g = e.target.closest("[data-go]");
+  if(g){ e.preventDefault(); const t = document.getElementById(g.dataset.go); if(t) scrollToEl(t); return; }
+  const p = e.target.closest("[data-present]");
+  if(p){ e.preventDefault(); present((location.hash||"").slice(6), +p.dataset.present); }
+});
+
+/* Presenter: the deck full screen, one slide at a time, with the chapter note as the speaker's line */
+function present(slug, start){
+  const d = STRATS[STRAT[slug]]; if(!d || !VAULT.sOpen()) return;
+  const chs = chRanges(d); let k = start || 0;
+  const el = document.createElement("div"); el.className = "dk-pres"; el.setAttribute("role","dialog"); el.setAttribute("aria-modal","true"); el.setAttribute("aria-label", d.title+", presentation");
+  el.innerHTML = `<header><span><b>${esc(d.title)}</b> · ${esc(d.client)}</span><button type="button" data-x>Close ✕</button></header>
+    <div class="stage"><img alt=""></div>
+    <footer><p class="note"></p><div class="nav"><span class="ct" style="align-self:center;margin-right:10px"></span><button type="button" data-p aria-label="Previous">←</button><button type="button" data-n aria-label="Next">→</button></div></footer><span class="bar"><i></i></span>`;
+  document.body.appendChild(el); requestAnimationFrame(()=>el.classList.add("on"));
+  if(lenis) lenis.stop(); document.documentElement.style.overflow = "hidden";
+  const img = el.querySelector("img"), note = el.querySelector(".note"), ct = el.querySelector(".ct"), bar = el.querySelector(".bar i");
+  const show = () => {
+    const c = chs.find(c => k+1 >= c.a && k+1 <= c.b) || chs[0];
+    ct.textContent = `${pad2(k+1)} / ${pad2(d.n)}`; bar.style.transform = `scaleX(${(k+1)/d.n})`;
+    note.innerHTML = `<i>${esc(c.t)}</i>${esc(c.n)}`;
+    img.alt = `${d.title}, ${unitOf(d).slice(0,-1)} ${k+1}`;
+    VAULT.simg(slug, k).then(u => { img.src = u; });
+    [k+1,k+2].forEach(j => j < d.n && VAULT.simg(slug, j));
+  };
+  const go = s => { k = Math.max(0, Math.min(d.n-1, k+s)); show(); };
+  const close = () => { el.classList.remove("on"); setTimeout(()=>el.remove(), 350); document.removeEventListener("keydown", key); if(lenis) lenis.start(); document.documentElement.style.overflow = ""; };
+  const key = e => { if(e.key==="Escape") close(); else if(e.key==="ArrowRight"||e.key===" "||e.key==="PageDown"){ e.preventDefault(); go(1); } else if(e.key==="ArrowLeft"||e.key==="PageUp"){ e.preventDefault(); go(-1); } };
+  document.addEventListener("keydown", key);
+  el.addEventListener("click", e => { if(e.target.closest("[data-x]")) close(); else if(e.target.closest("[data-n]")) go(1); else if(e.target.closest("[data-p]")) go(-1);
+    else if(e.target.closest(".stage")){ const r = el.getBoundingClientRect(); go(e.clientX > r.width/2 ? 1 : -1); } });
+  show(); el.querySelector("[data-x]").focus();
+}
 
 /* ========================= Motion ========================= */
 let lenis = null;
@@ -1413,13 +1694,14 @@ if(matchMedia("(pointer:fine)").matches && !RM){
 function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("on"); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("on"),2000); }
 
 /* ========================= Router ========================= */
-const SECTIONS = {work:"work", index:"index", contact:"contact", about:"about", words:"words"};
+const SECTIONS = {work:"work", index:"index", strategy:"strategy", contact:"contact", about:"about", words:"words"};
 const LEGACY = {"product-design":"product-design","brand-design":"brand-design","design-systems":"design-systems","others":"others","work":"work"};
 let curPage = "";
 function route(){
   const key = (location.hash||"").slice(1) || "home";
   if(key.startsWith("work/")){
     const slug = key.slice(5);
+    if(slug in STRAT) return {page:"deck:"+slug+(VAULT.sOpen()?":open":""), html:()=>Deck(slug), after:wireDeck};
     if(slug in CASE && !hiddenCase(slug)) return {page:"case:"+slug, html:()=>CaseStudy(slug), after:wireToc};
     if(VAULT.locked(slug)) return {page:"gate:"+slug, html:()=>Gate(slug)};
     return {page:"home", html:Home, section:"index"};
