@@ -381,6 +381,9 @@ a.ix-r:hover .arr{transform:translate(2px,-2px)}
 .portrait img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
 .tlink{display:inline-flex;gap:6px;align-items:center;color:var(--white);font-size:14px;border-bottom:1px solid var(--dim);padding-bottom:2px;width:max-content;transition:border-color .3s}
 .tlink:hover{border-color:var(--white)}
+.cp-l .cp-soon{display:grid;gap:10px;margin-top:auto;padding-top:20px}
+.cp-l .cp-soon .site{margin-top:0;padding-top:0}
+.cp-soon p{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--grey)}
 .focus{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap)}
 .focus h3{font-size:14px;font-weight:400;color:var(--white);margin-bottom:10px}
 .focus li{font-size:14px;line-height:1.75;color:var(--grey)}
@@ -581,7 +584,7 @@ a.ix-r:hover .arr{transform:translate(2px,-2px)}
   .jrow{flex-direction:column}
   .jrow .pg-t{flex:none!important;width:100%}
   .cp-l{position:static;height:auto;padding-bottom:0}
-  .cp-l .cp-toc,.cp-l .site{display:none}
+  .cp-l .cp-toc,.cp-l .site,.cp-l .cp-soon{display:none}
   .cp-l .co{margin-top:20px}
   .cp-c{border-left:0}
   .cp-h{padding:28px 0 28px}
@@ -1466,7 +1469,9 @@ const CASE_MOTION = {
   "vervemobile": Object.assign({alt:"VerveMobile app: buy airtime, data and bundles, then activate the wallet"}, MOT("vervemobile")),
   "quickteller-remit": Object.assign({alt:"QuickTeller Remit app in hand, showing balance and transfer history"}, MOT("quickteller-remit"))
 };
-const SITE = {"pressone-community-platform":"https://pressone.africa/","pressone-payment-exit-flows":"https://pressone.africa/","quickteller-remit":"https://www.quickteller.com/","vervemobile":"https://myverveworld.com/"};
+const SITE = {"pressone-community-platform":"https://pressone.africa/","pressone-payment-exit-flows":"https://pressone.africa/"};
+/* Products not public yet: say so, and point to the company instead */
+const SOON_SITE = {"quickteller-remit":["Interswitch","https://www.interswitchgroup.com/"],"vervemobile":["Verve","https://www.myverveworld.com/"]};
 function CaseStudy(slug){
   const i = CASE[slug], c = CASES[i];
   const catOf = sl => (WORK.find(w=>w[3]===sl)||[])[4];
@@ -1488,7 +1493,7 @@ function CaseStudy(slug){
       <aside class="cp-l"><a class="back" href="#work">← All work</a>
         <p class="co">${esc(c.co)}</p><p class="yr">${c.yr}</p>
         <nav class="cp-toc" aria-label="On this page">${toc}</nav>
-        ${url?`<a class="tlink site" href="${esc(url)}" target="_blank" rel="noopener">Visit live product ↗</a>`:""}</aside>
+        ${SOON_SITE[slug]?`<div class="cp-soon"><p><i class="dot"></i>Product launching soon</p><a class="tlink site" href="${esc(SOON_SITE[slug][1])}" target="_blank" rel="noopener">Visit ${esc(SOON_SITE[slug][0])} ↗</a></div>`:url?`<a class="tlink site" href="${esc(url)}" target="_blank" rel="noopener">Visit live product ↗</a>`:""}</aside>
       <article class="cp-c">
         <header class="cp-h"><p class="k"><span>${esc(c.co)}</span><span class="g">·</span><span>${c.yr}</span></p><h1 data-r>${esc(c.title)}</h1>${c.sub?`<p class="sub" data-r style="--d:.08s">${esc(c.sub)}</p>`:""}</header>
         <div class="cp-body">${secs}</div>
