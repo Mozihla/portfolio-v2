@@ -172,9 +172,10 @@ async function request(req, res) {
   if (b.website) return json(res, 200, { ok: true });                    // honeypot: bots fill every field
   const email = String(b.email || "").trim().toLowerCase().slice(0, 200);
   const cat = catalogue();
-  const slugs = [...new Set([].concat(b.slugs || b.slug || []).map(String))].filter(s => cat[s]).slice(0, 40);
+  const slugs = [...new Set([].concat(b.slugs || b.slug || []).map(String))].filter(s => cat[s]);
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return json(res, 400, { error: "invalid", message: "Enter a valid email address." });
   if (!slugs.length) return json(res, 400, { error: "invalid", message: "Pick at least one project." });
+  if (slugs.length > 3) return json(res, 400, { error: "invalid", message: "You can request up to 3 projects at a time." });
   const ip = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "?";
   if (limited(ip)) return json(res, 429, { error: "busy", message: "Too many requests from here. Try again in an hour." });
   const r = sign({ typ: "req", email, slugs, at: Date.now(), exp: Date.now() + REVIEW_MS });

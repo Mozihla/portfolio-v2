@@ -542,7 +542,9 @@ a.ix-r:hover .arr{transform:translate(2px,-2px)}
 .rq-chips button:hover{color:var(--white);border-color:var(--grey)}
 .rq-p{border:0;margin:4px 0 0;padding:0;min-width:0}
 .rq-p legend{display:flex;justify-content:space-between;width:100%;font-size:13px;color:var(--grey);padding:0;margin-bottom:8px}
-.rq-p legend .lnk{font-size:12px}
+.rq-n{font-size:12px;color:var(--grey)}
+.rq .rq-list label.off{opacity:.4;cursor:not-allowed}
+.rq .rq-list label.off:hover{background:none}
 .rq-list{display:grid;gap:2px;max-height:228px;overflow:auto;border:1px solid var(--pill-line);border-radius:12px;padding:6px;overscroll-behavior:contain}
 .rq .rq-list label{display:flex;gap:10px;align-items:flex-start;padding:8px 8px;border-radius:8px;cursor:pointer;font-size:14px;color:var(--white)}
 .rq .rq-list label:hover{background:var(--chip)}
@@ -1593,7 +1595,7 @@ function ReqAccess(slug){
     <form class="rq" data-rq="${slug}" hidden novalidate>
       <label class="rq-e"><span>Your email</span><input name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@gmail.com" required maxlength="200"></label>
       <div class="rq-chips" aria-label="Quick fill"><button type="button" data-dom="gmail.com">@gmail.com</button><button type="button" data-dom="icloud.com">@icloud.com</button><button type="button" data-dom="outlook.com">@outlook.com</button></div>
-      <fieldset class="rq-p"><legend><span>Projects</span><button type="button" class="lnk" data-all>Select all</button></legend>
+      <fieldset class="rq-p"><legend><span>Projects</span><span class="rq-n" aria-live="polite">1 of 3 picked</span></legend>
         <div class="rq-list">${items.map(([s,t,c]) => `<label><input type="checkbox" name="slugs" value="${s}"${s===slug?" checked":""}><span>${esc(t)}<em>${esc(c||"")}</em></span></label>`).join("")}</div></fieldset>
       <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
       <div class="rq-a"><button class="btn" type="submit">Send request</button><p class="rq-err" role="alert" aria-live="polite"></p></div>
@@ -1606,9 +1608,14 @@ document.addEventListener("click", e => {
   const dm = e.target.closest("[data-dom]");
   if(dm){ const inp = dm.closest("form").querySelector("input[name=email]"); const local = inp.value.split("@")[0].trim();
     inp.value = local + "@" + dm.dataset.dom; inp.focus(); if(!local) inp.setSelectionRange(0, 0); return; }
-  const al = e.target.closest("[data-all]");
-  if(al){ const boxes = [...al.closest("form").querySelectorAll("input[name=slugs]")], on = !boxes.every(x => x.checked);
-    boxes.forEach(x => x.checked = on); al.textContent = on ? "Clear" : "Select all"; }
+});
+/* At most 3 projects per request: once three are ticked, the rest are disabled */
+const RQ_MAX = 3;
+document.addEventListener("change", e => {
+  const box = e.target.closest(".rq-list input[name=slugs]"); if(!box) return;
+  const f = box.closest("form"), boxes = [...f.querySelectorAll("input[name=slugs]")], n = boxes.filter(x => x.checked).length;
+  boxes.forEach(x => { if(!x.checked){ x.disabled = n >= RQ_MAX; x.closest("label").classList.toggle("off", n >= RQ_MAX); } });
+  f.querySelector(".rq-n").textContent = n >= RQ_MAX ? `3 of 3 picked · that’s the limit` : `${n} of 3 picked`;
 });
 document.addEventListener("submit", async e => {
   const f = e.target.closest("[data-rq]"); if(!f) return;
@@ -1617,6 +1624,7 @@ document.addEventListener("submit", async e => {
   const err = f.querySelector(".rq-err"), btn = f.querySelector("button[type=submit]");
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ err.textContent = "Enter a valid email address."; return; }
   if(!slugs.length){ err.textContent = "Pick at least one project."; return; }
+  if(slugs.length > RQ_MAX){ err.textContent = "You can request up to 3 projects at a time."; return; }
   btn.disabled = true; btn.textContent = "Sending…"; err.textContent = "";
   const r = await fetch("/api/access?a=request", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({email, slugs, website:f.website.value})})
     .then(async r => ({ok:r.ok, ...(await r.json().catch(()=>({})))})).catch(()=>({ok:false}));
