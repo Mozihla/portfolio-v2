@@ -22,7 +22,7 @@
   ],
   "functions": {
     "api/access.js": {
-      "includeFiles": "{index.html,assets/s/**}",
+      "includeFiles": "{index.html,assets/s/**,media/vault/**}",
       "maxDuration": 10
     }
   }
