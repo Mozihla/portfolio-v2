@@ -533,6 +533,22 @@ a.ix-r:hover .arr{transform:translate(2px,-2px)}
 .gate-err{color:var(--orange-02);font-size:13px;margin-top:10px;min-height:1.4em}
 .gate-req{color:var(--grey);font-size:13px}
 .gate-req a{color:var(--white);border-bottom:1px solid var(--dim)}
+.lnk{background:none;border:0;padding:0;font:inherit;color:var(--white);border-bottom:1px solid var(--dim);cursor:pointer}
+.lnk:hover{border-color:var(--white)}
+.rq{display:grid;gap:12px;margin-top:22px;max-width:480px;text-align:left}
+.rq[hidden]{display:none}
+.rq-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rq label{display:grid;gap:6px;font-size:13px;color:var(--grey)}
+.rq label em{font-style:normal;opacity:.7;margin-left:4px}
+.rq input,.rq textarea{width:100%;box-sizing:border-box;border:1px solid var(--pill-line);border-radius:12px;background:transparent;color:var(--white);font:inherit;font-size:15px;padding:11px 14px;resize:vertical}
+.rq input:focus,.rq textarea:focus{outline:none;border-color:var(--orange-02)}
+.rq .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.rq-a{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.rq-err{color:var(--orange-02);font-size:13px;min-height:1em}
+.rq-ok{margin-top:20px;max-width:480px;padding:14px 16px;border:1px solid var(--pill-line);border-radius:12px;color:var(--grey);font-size:14px;line-height:1.5;text-align:left}
+.rq-ok b{color:var(--white);font-weight:600}
+.dk-grant{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--grey)}
+@media (max-width:640px){.rq-2{grid-template-columns:1fr}}
 .shake{animation:shake .4s}
 @keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 
@@ -1108,6 +1124,26 @@ const VAULT = (()=>{
   }
   /* Strategy decks: their own salt, same access code, so one code opens both */
   const S = window.STRAT_LOCK || null; let skey = null, SMAP = null; const sblobs = new Map();
+  /* 24-hour access Dammy approved by email: a signed grant. The server re-checks it on every request,
+     decrypts what it covers and stops serving when it expires; the visitor never sees the code. */
+  let G = null; try{ G = JSON.parse(localStorage.getItem("acc") || "null"); }catch(e){}
+  const gdrop = () => { G = null; try{ localStorage.removeItem("acc"); }catch(e){} };
+  if(G && !(G.exp > Date.now())) gdrop();
+  const gok = slug => !!G && G.exp > Date.now() && (G.scope === "*" || (G.scope || []).includes(slug));
+  const gurl = q => "/api/access?a=file&g=" + encodeURIComponent(G.t) + "&" + q;
+  async function grant(t){
+    const r = await fetch("/api/access?a=status&g=" + encodeURIComponent(t)).then(r=>r.json()).catch(()=>({}));
+    if(!r.ok) return false;
+    G = {t, exp:r.exp, scope:r.scope, name:r.name}; try{ localStorage.setItem("acc", JSON.stringify(G)); }catch(e){}
+    return true;
+  }
+  async function gload(){
+    if(!G) return false;
+    const r = await fetch("/api/access?a=open&g=" + encodeURIComponent(G.t)).then(r => r.status === 401 ? (gdrop(), null) : r.ok ? r.json() : null).catch(()=>null);
+    if(!r) return false;
+    (r.items || []).forEach(o => { if(!(o.slug in CASE)) CASE[o.slug] = window.DS_BUILD(o); });
+    return true;
+  }
   async function unlockS(code){
     if(skey) return true;
     if(!S || !/^\d{4}$/.test(code) || !crypto.subtle) return false;
@@ -1121,6 +1157,7 @@ const VAULT = (()=>{
     }catch(e){ return false; }
   }
   function simg(slug, k){
+    if(!skey && gok(slug)) return Promise.resolve(gurl("k=s&slug=" + encodeURIComponent(slug) + "&i=" + k));
     const path = SMAP && SMAP[slug] && SMAP[slug][k]; if(!path) return Promise.reject();
     if(sblobs.has(path)) return sblobs.get(path);
     const p = fetch(path).then(r=>r.arrayBuffer()).then(b=>{ const u = new Uint8Array(b); return crypto.subtle.decrypt({name:"AES-GCM", iv:u.subarray(0,12)}, skey, u.subarray(12)); })
@@ -1128,7 +1165,7 @@ const VAULT = (()=>{
     sblobs.set(path, p); return p;
   }
   function shydrate(slug){
-    if(!skey) return;
+    if(!skey && !gok(slug)) return;
     document.querySelectorAll("img[data-sv]").forEach(i => { if(i.dataset.done) return; i.dataset.done = 1;
       simg(slug, +i.dataset.sv).then(u => { i.src = u; i.onload = () => i.classList.add("in"); }).catch(()=>{}); });
   }
@@ -1156,12 +1193,27 @@ const VAULT = (()=>{
     blobs.set(path, p); return p;
   }
   function hydrate(root=document){
-    if(!key) return;
+    if(!key){
+      if(G) root.querySelectorAll('img[src*="#v="]').forEach(i => { const path = i.getAttribute("src").split("#v=")[1]; i.src = gurl("k=d&p=" + encodeURIComponent(path)); });
+      return;
+    }
     root.querySelectorAll('img[src*="#v="]').forEach(i => { const path = i.getAttribute("src").split("#v=")[1]; img(path).then(u=>{ i.src = u; }).catch(()=>{}); });
   }
-  return { items, unlock, hydrate, locked: slug => slug in items && !(slug in CASE), unlockS, sOpen: () => !!skey, simg, shydrate };
+  return { items, unlock, hydrate, locked: slug => slug in items && !(slug in CASE), unlockS, sOpen: slug => !!skey || gok(slug), byCode: () => !!skey, simg, shydrate,
+    grant, gload, gok, ginfo: () => G };
 })();
 new MutationObserver(()=>VAULT.hydrate()).observe(document.documentElement, {childList:true, subtree:true, attributes:true, attributeFilter:["src"]});
+(()=>{
+  const t = new URLSearchParams(location.search).get("access");
+  const reopen = () => { if(/^#work\//.test(location.hash) && ($(".gate") || $(".dk-lockbox"))) render(true); };
+  if(t){
+    history.replaceState(null, "", location.pathname + location.hash);
+    VAULT.grant(t).then(ok => {
+      if(!ok){ setTimeout(()=>toast("That access link has expired. You can request access again."), 400); return; }
+      VAULT.gload().then(() => { reopen(); const g = VAULT.ginfo(); setTimeout(()=>toast("Access open until " + new Date(g.exp).toLocaleString([], {weekday:"short", hour:"numeric", minute:"2-digit"})), 400); });
+    });
+  } else if(VAULT.ginfo()) VAULT.gload().then(ok => { if(ok) reopen(); });
+})();
 (()=>{ let c=null; try{ c = sessionStorage.getItem("ssk"); }catch(e){} if(c) VAULT.unlockS(c).then(ok=>{ if(ok && /^#work\//.test(location.hash) && $(".dk-lockbox")) render(true); }); })();
 (()=>{ let c=null; try{ c = sessionStorage.getItem("dsk"); }catch(e){} if(c) VAULT.unlock(c).then(ok=>{ if(ok && /^#work\//.test(location.hash) && ($(".gate") || $(".dk-lockbox"))) render(true); }); })();
 
@@ -1518,6 +1570,38 @@ function wireToc(){
   tocObs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) set(e.target.id); }); },{rootMargin:"0px 0px -70% 0px"});
   targets.forEach(t=>tocObs.observe(t));
 }
+/* Request access: Dammy gets an email, approves, and the visitor gets a link that works for 24 hours */
+function ReqAccess(slug, title){
+  return `<p class="gate-req">No code? <button type="button" class="lnk" data-req="${slug}">Request access</button>. If Dammy approves, you’ll get a link by email that works for 24 hours.</p>
+    <form class="rq" data-rq="${slug}" hidden novalidate>
+      <div class="rq-2"><label><span>Name</span><input name="name" autocomplete="name" required maxlength="120"></label>
+      <label><span>Work email</span><input name="email" type="email" autocomplete="email" required maxlength="200"></label></div>
+      <label><span>Company and role <em>optional</em></span><input name="org" autocomplete="organization" maxlength="160"></label>
+      <label><span>What’s it for? <em>optional</em></span><textarea name="reason" rows="3" maxlength="1200" placeholder="E.g. we’re hiring for a senior product designer"></textarea></label>
+      <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+      <div class="rq-a"><button class="btn" type="submit">Send request</button><p class="rq-err" role="alert" aria-live="polite"></p></div>
+    </form>`;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-req]"); if(!b) return;
+  const f = b.closest("div").querySelector(`[data-rq="${b.dataset.req}"]`); if(!f) return;
+  f.hidden = false; b.closest(".gate-req").hidden = true; f.querySelector("input").focus();
+});
+document.addEventListener("submit", async e => {
+  const f = e.target.closest("[data-rq]"); if(!f) return;
+  e.preventDefault();
+  const v = Object.fromEntries(new FormData(f)), err = f.querySelector(".rq-err"), btn = f.querySelector("button[type=submit]");
+  if(!v.name.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())){ err.textContent = "Add your name and a valid email."; return; }
+  btn.disabled = true; btn.textContent = "Sending…"; err.textContent = "";
+  const r = await fetch("/api/access?a=request", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({...v, slug:f.dataset.rq})})
+    .then(async r => ({ok:r.ok, ...(await r.json().catch(()=>({})))})).catch(()=>({ok:false}));
+  if(r.ok){
+    f.outerHTML = `<div class="rq-ok" role="status"><b>Request sent.</b> Dammy will review it. If he approves, a link that works for 24 hours goes to ${esc(v.email.trim())}.</div>`;
+  } else {
+    btn.disabled = false; btn.textContent = "Send request";
+    err.textContent = r.message || "That didn’t send. Check your connection and try again.";
+  }
+});
 function Gate(slug){
   const it = VAULT.items[slug];
   const mail = `mailto:${CONFIG.email}?subject=${encodeURIComponent("Access request: "+it.title)}`;
@@ -1526,7 +1610,7 @@ function Gate(slug){
       <p class="gp">This case study is under NDA, so it’s locked. Enter the access code Dammy shared with you to view it.</p>
       <form class="gate-f" data-gate="${slug}" autocomplete="off"><input name="code" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="····" aria-label="Access code" autocomplete="one-time-code" required><button class="btn" type="submit">Unlock</button></form>
       <p class="gate-err" role="alert" aria-live="polite"></p>
-      <p class="gate-req">No code? <a href="${mail}">Request access by email</a> or <a href="${CONFIG.linkedin}" target="_blank" rel="noopener">ask on LinkedIn</a>.</p></div></div></div>${Contact()}</div>`;
+      ${ReqAccess(slug, it.title)}</div></div></div>${Contact()}</div>`;
 }
 document.addEventListener("submit", async e => {
   const f = e.target.closest("[data-gate]"); if(!f) return;
@@ -1563,7 +1647,7 @@ function StrategyRoom(){
 }
 
 function Deck(slug){
-  const d = STRATS[STRAT[slug]], open = VAULT.sOpen(), unit = unitOf(d), n = d.n;
+  const d = STRATS[STRAT[slug]], open = VAULT.sOpen(slug), unit = unitOf(d), n = d.n;
   const mail = `mailto:${CONFIG.email}?subject=${encodeURIComponent("Access request: "+d.title)}`;
   const chs = chRanges(d);
   const fact = (k,v,cls="") => v ? `<div><dt>${k}</dt><dd class="${cls}">${esc(v)}</dd></div>` : "";
@@ -1574,12 +1658,13 @@ function Deck(slug){
   const flow = chs.map((c,i)=>`<div class="dk-ch" id="dc${i}" data-ch="${i}"><p class="dk-cht"><span>${pad2(i+1)}</span>${esc(c.t)}</p><p class="dk-chn">${esc(c.n)}</p>
       ${Array.from({length:c.b-c.a+1},(_,j)=>slide(c.a-1+j)).join("")}</div>`).join("");
   const toc = chs.map((c,i)=>`<li data-ch="${i}"${i===0?' aria-current="true"':""}><a href="#work/${slug}" data-go="dc${i}"><span>${pad2(i+1)}</span>${esc(c.t)}<p class="dk-note">${esc(c.n)}</p></a></li>`).join("");
-  const lock = open ? "" : `<div class="dk-lockbox" data-r><span class="lkic">${LOCK_IC}</span><div>
+  const g = VAULT.ginfo();
+  const lock = open ? (VAULT.byCode() || !g ? "" : `<p class="dk-grant"><i class="dot"></i>Shared with ${esc(g.name || "you")} by Dammy · access ends ${new Date(g.exp).toLocaleString([], {weekday:"short", hour:"numeric", minute:"2-digit"})}</p>`) : `<div class="dk-lockbox" data-r><span class="lkic">${LOCK_IC}</span><div>
       <p class="dk-lb-t">The ${unit} are under NDA</p>
       <p class="gp">Enter the access code Dammy shared with you to read all ${n} ${unit}. The story above stays open to everyone.</p>
       <form class="gate-f" data-gate="deck:${slug}" autocomplete="off"><input name="code" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="····" aria-label="Access code" autocomplete="one-time-code" required><button class="btn" type="submit">Unlock</button></form>
       <p class="gate-err" role="alert" aria-live="polite"></p>
-      <p class="gate-req">No code? <a href="${mail}">Request access by email</a> or <a href="${CONFIG.linkedin}" target="_blank" rel="noopener">ask on LinkedIn</a>.</p></div></div>`;
+      ${ReqAccess(slug, d.title)}</div></div>`;
   const i = STRAT[slug], nx = STRATS[(i+1)%STRATS.length];
   return `<div class="page">${Header("")}<main class="wrap">
     <section class="ph dk-hero"><a class="back" href="#strategy">← Strategy room</a><p class="lab lab-p g sm" style="margin-bottom:18px">${esc(d.kind)}</p>
@@ -1623,7 +1708,7 @@ document.addEventListener("click", e => {
 
 /* Presenter: the deck full screen, one slide at a time, with the chapter note as the speaker's line */
 function present(slug, start){
-  const d = STRATS[STRAT[slug]]; if(!d || !VAULT.sOpen()) return;
+  const d = STRATS[STRAT[slug]]; if(!d || !VAULT.sOpen(slug)) return;
   const chs = chRanges(d); let k = start || 0;
   const el = document.createElement("div"); el.className = "dk-pres"; el.setAttribute("role","dialog"); el.setAttribute("aria-modal","true"); el.setAttribute("aria-label", d.title+", presentation");
   el.innerHTML = `<header><span><b>${esc(d.title)}</b> · ${esc(d.client)}</span><button type="button" data-x>Close ✕</button></header>
@@ -1714,7 +1799,7 @@ function route(){
   const key = (location.hash||"").slice(1) || "home";
   if(key.startsWith("work/")){
     const slug = key.slice(5);
-    if(slug in STRAT) return {page:"deck:"+slug+(VAULT.sOpen()?":open":""), html:()=>Deck(slug), after:wireDeck};
+    if(slug in STRAT) return {page:"deck:"+slug+(VAULT.sOpen(slug)?":open":""), html:()=>Deck(slug), after:wireDeck};
     if(slug in CASE && !hiddenCase(slug)) return {page:"case:"+slug, html:()=>CaseStudy(slug), after:wireToc};
     if(VAULT.locked(slug)) return {page:"gate:"+slug, html:()=>Gate(slug)};
     return {page:"home", html:Home, section:"index"};
