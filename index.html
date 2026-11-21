@@ -537,7 +537,18 @@ a.ix-r:hover .arr{transform:translate(2px,-2px)}
 .lnk:hover{border-color:var(--white)}
 .rq{display:grid;gap:12px;margin-top:22px;max-width:480px;text-align:left}
 .rq[hidden]{display:none}
-.rq-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rq-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:-4px}
+.rq-chips button{font:inherit;font-size:12px;color:var(--grey);background:transparent;border:1px solid var(--pill-line);border-radius:999px;padding:5px 10px;cursor:pointer}
+.rq-chips button:hover{color:var(--white);border-color:var(--grey)}
+.rq-p{border:0;margin:4px 0 0;padding:0;min-width:0}
+.rq-p legend{display:flex;justify-content:space-between;width:100%;font-size:13px;color:var(--grey);padding:0;margin-bottom:8px}
+.rq-p legend .lnk{font-size:12px}
+.rq-list{display:grid;gap:2px;max-height:228px;overflow:auto;border:1px solid var(--pill-line);border-radius:12px;padding:6px;overscroll-behavior:contain}
+.rq .rq-list label{display:flex;gap:10px;align-items:flex-start;padding:8px 8px;border-radius:8px;cursor:pointer;font-size:14px;color:var(--white)}
+.rq .rq-list label:hover{background:var(--chip)}
+.rq .rq-list input{width:16px;height:16px;padding:0;margin:3px 0 0;border:0;accent-color:var(--orange-02);flex:none}
+.rq-list span{display:grid;gap:2px}
+.rq .rq-list em{font-style:normal;font-size:12px;color:var(--grey);opacity:1;margin:0}
 .rq label{display:grid;gap:6px;font-size:13px;color:var(--grey)}
 .rq label em{font-style:normal;opacity:.7;margin-left:4px}
 .rq input,.rq textarea{width:100%;box-sizing:border-box;border:1px solid var(--pill-line);border-radius:12px;background:transparent;color:var(--white);font:inherit;font-size:15px;padding:11px 14px;resize:vertical}
@@ -548,7 +559,7 @@ a.ix-r:hover .arr{transform:translate(2px,-2px)}
 .rq-ok{margin-top:20px;max-width:480px;padding:14px 16px;border:1px solid var(--pill-line);border-radius:12px;color:var(--grey);font-size:14px;line-height:1.5;text-align:left}
 .rq-ok b{color:var(--white);font-weight:600}
 .dk-grant{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--grey)}
-@media (max-width:640px){.rq-2{grid-template-columns:1fr}}
+
 .shake{animation:shake .4s}
 @keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 
@@ -1570,33 +1581,47 @@ function wireToc(){
   tocObs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) set(e.target.id); }); },{rootMargin:"0px 0px -70% 0px"});
   targets.forEach(t=>tocObs.observe(t));
 }
-/* Request access: Dammy gets an email, approves, and the visitor gets a link that works for 24 hours */
-function ReqAccess(slug, title){
+/* Request access: just an email and the projects. Dammy gets an email, approves, and the visitor gets a link that works for 24 hours */
+function lockedList(){
+  const decks = STRATS.filter(d => !VAULT.sOpen(d.slug)).map(d => [d.slug, d.title, d.client]);
+  const ds = Object.values(VAULT.items).filter(d => VAULT.locked(d.slug)).map(d => [d.slug, d.title, d.client]);
+  return [...ds, ...decks];
+}
+function ReqAccess(slug){
+  const items = lockedList();
   return `<p class="gate-req">No code? <button type="button" class="lnk" data-req="${slug}">Request access</button>. If Dammy approves, you’ll get a link by email that works for 24 hours.</p>
     <form class="rq" data-rq="${slug}" hidden novalidate>
-      <div class="rq-2"><label><span>Name</span><input name="name" autocomplete="name" required maxlength="120"></label>
-      <label><span>Work email</span><input name="email" type="email" autocomplete="email" required maxlength="200"></label></div>
-      <label><span>Company and role <em>optional</em></span><input name="org" autocomplete="organization" maxlength="160"></label>
-      <label><span>What’s it for? <em>optional</em></span><textarea name="reason" rows="3" maxlength="1200" placeholder="E.g. we’re hiring for a senior product designer"></textarea></label>
+      <label class="rq-e"><span>Your email</span><input name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@gmail.com" required maxlength="200"></label>
+      <div class="rq-chips" aria-label="Quick fill"><button type="button" data-dom="gmail.com">@gmail.com</button><button type="button" data-dom="icloud.com">@icloud.com</button><button type="button" data-dom="outlook.com">@outlook.com</button></div>
+      <fieldset class="rq-p"><legend><span>Projects</span><button type="button" class="lnk" data-all>Select all</button></legend>
+        <div class="rq-list">${items.map(([s,t,c]) => `<label><input type="checkbox" name="slugs" value="${s}"${s===slug?" checked":""}><span>${esc(t)}<em>${esc(c||"")}</em></span></label>`).join("")}</div></fieldset>
       <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
       <div class="rq-a"><button class="btn" type="submit">Send request</button><p class="rq-err" role="alert" aria-live="polite"></p></div>
     </form>`;
 }
 document.addEventListener("click", e => {
-  const b = e.target.closest("[data-req]"); if(!b) return;
-  const f = b.closest("div").querySelector(`[data-rq="${b.dataset.req}"]`); if(!f) return;
-  f.hidden = false; b.closest(".gate-req").hidden = true; f.querySelector("input").focus();
+  const b = e.target.closest("[data-req]");
+  if(b){ const f = b.closest("div").querySelector(`[data-rq="${b.dataset.req}"]`); if(!f) return;
+    f.hidden = false; b.closest(".gate-req").hidden = true; f.querySelector("input[name=email]").focus(); return; }
+  const dm = e.target.closest("[data-dom]");
+  if(dm){ const inp = dm.closest("form").querySelector("input[name=email]"); const local = inp.value.split("@")[0].trim();
+    inp.value = local + "@" + dm.dataset.dom; inp.focus(); if(!local) inp.setSelectionRange(0, 0); return; }
+  const al = e.target.closest("[data-all]");
+  if(al){ const boxes = [...al.closest("form").querySelectorAll("input[name=slugs]")], on = !boxes.every(x => x.checked);
+    boxes.forEach(x => x.checked = on); al.textContent = on ? "Clear" : "Select all"; }
 });
 document.addEventListener("submit", async e => {
   const f = e.target.closest("[data-rq]"); if(!f) return;
   e.preventDefault();
-  const v = Object.fromEntries(new FormData(f)), err = f.querySelector(".rq-err"), btn = f.querySelector("button[type=submit]");
-  if(!v.name.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim())){ err.textContent = "Add your name and a valid email."; return; }
+  const email = f.email.value.trim(), slugs = [...f.querySelectorAll("input[name=slugs]:checked")].map(x => x.value);
+  const err = f.querySelector(".rq-err"), btn = f.querySelector("button[type=submit]");
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ err.textContent = "Enter a valid email address."; return; }
+  if(!slugs.length){ err.textContent = "Pick at least one project."; return; }
   btn.disabled = true; btn.textContent = "Sending…"; err.textContent = "";
-  const r = await fetch("/api/access?a=request", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({...v, slug:f.dataset.rq})})
+  const r = await fetch("/api/access?a=request", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({email, slugs, website:f.website.value})})
     .then(async r => ({ok:r.ok, ...(await r.json().catch(()=>({})))})).catch(()=>({ok:false}));
   if(r.ok){
-    f.outerHTML = `<div class="rq-ok" role="status"><b>Request sent.</b> Dammy will review it. If he approves, a link that works for 24 hours goes to ${esc(v.email.trim())}.</div>`;
+    f.outerHTML = `<div class="rq-ok" role="status"><b>Request sent.</b> If Dammy approves, a link that works for 24 hours goes to ${esc(email)}.</div>`;
   } else {
     btn.disabled = false; btn.textContent = "Send request";
     err.textContent = r.message || "That didn’t send. Check your connection and try again.";
@@ -1610,7 +1635,7 @@ function Gate(slug){
       <p class="gp">This case study is under NDA, so it’s locked. Enter the access code Dammy shared with you to view it.</p>
       <form class="gate-f" data-gate="${slug}" autocomplete="off"><input name="code" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="····" aria-label="Access code" autocomplete="one-time-code" required><button class="btn" type="submit">Unlock</button></form>
       <p class="gate-err" role="alert" aria-live="polite"></p>
-      ${ReqAccess(slug, it.title)}</div></div></div>${Contact()}</div>`;
+      ${ReqAccess(slug)}</div></div></div>${Contact()}</div>`;
 }
 document.addEventListener("submit", async e => {
   const f = e.target.closest("[data-gate]"); if(!f) return;
@@ -1659,12 +1684,12 @@ function Deck(slug){
       ${Array.from({length:c.b-c.a+1},(_,j)=>slide(c.a-1+j)).join("")}</div>`).join("");
   const toc = chs.map((c,i)=>`<li data-ch="${i}"${i===0?' aria-current="true"':""}><a href="#work/${slug}" data-go="dc${i}"><span>${pad2(i+1)}</span>${esc(c.t)}<p class="dk-note">${esc(c.n)}</p></a></li>`).join("");
   const g = VAULT.ginfo();
-  const lock = open ? (VAULT.byCode() || !g ? "" : `<p class="dk-grant"><i class="dot"></i>Shared with ${esc(g.name || "you")} by Dammy · access ends ${new Date(g.exp).toLocaleString([], {weekday:"short", hour:"numeric", minute:"2-digit"})}</p>`) : `<div class="dk-lockbox" data-r><span class="lkic">${LOCK_IC}</span><div>
+  const lock = open ? (VAULT.byCode() || !g ? "" : `<p class="dk-grant"><i class="dot"></i>Shared with you by Dammy · access ends ${new Date(g.exp).toLocaleString([], {weekday:"short", hour:"numeric", minute:"2-digit"})}</p>`) : `<div class="dk-lockbox" data-r><span class="lkic">${LOCK_IC}</span><div>
       <p class="dk-lb-t">The ${unit} are under NDA</p>
       <p class="gp">Enter the access code Dammy shared with you to read all ${n} ${unit}. The story above stays open to everyone.</p>
       <form class="gate-f" data-gate="deck:${slug}" autocomplete="off"><input name="code" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="····" aria-label="Access code" autocomplete="one-time-code" required><button class="btn" type="submit">Unlock</button></form>
       <p class="gate-err" role="alert" aria-live="polite"></p>
-      ${ReqAccess(slug, d.title)}</div></div>`;
+      ${ReqAccess(slug)}</div></div>`;
   const i = STRAT[slug], nx = STRATS[(i+1)%STRATS.length];
   return `<div class="page">${Header("")}<main class="wrap">
     <section class="ph dk-hero"><a class="back" href="#strategy">← Strategy room</a><p class="lab lab-p g sm" style="margin-bottom:18px">${esc(d.kind)}</p>
