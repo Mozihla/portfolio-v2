@@ -660,8 +660,9 @@ a.ix-r:hover .arr{transform:translate(2px,-2px)}
 .sr-intro .g{color:var(--grey)}
 .sr-nda{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--grey);border:1px solid var(--pill-line);border-radius:999px;padding:6px 11px;white-space:nowrap}
 .sr-nda svg{width:12px;height:12px;color:var(--orange-02)}
-.sr-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(28px,2.6vw,40px) clamp(16px,1.6vw,24px)}
-.sr-grid .dk-card:first-child{grid-column:span 2}
+.sr-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(28px,2.6vw,40px) clamp(16px,1.6vw,24px)}
+.sr-grid .dk-card{grid-column:span 2}
+.sr-grid .dk-card.dk-lead{grid-column:span 3}
 .dk-card{display:flex;flex-direction:column;gap:16px;color:var(--white)}
 .dk-stack{position:relative;display:block;aspect-ratio:16/9;isolation:isolate}
 .dk-stack i{position:absolute;inset:0;border-radius:10px;background:var(--card);border:1px solid var(--card-line);transition:transform .7s var(--ease),opacity .5s;z-index:-1}
@@ -674,13 +675,13 @@ a.ix-r:hover .arr{transform:translate(2px,-2px)}
 .dk-info{display:flex;flex-direction:column;gap:8px;padding-right:12px}
 .dk-k{font-size:12px;color:var(--grey);text-transform:uppercase;letter-spacing:-.01em}
 .dk-t{font-size:clamp(17px,1.3vw,20px);line-height:1.3;letter-spacing:-.02em;color:var(--white)}
-.sr-grid .dk-card:first-child .dk-t{font-size:clamp(20px,1.8vw,26px)}
+.sr-grid .dk-lead .dk-t{font-size:clamp(20px,1.8vw,26px)}
 .dk-m{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .dk-m span{font-size:11px;line-height:1;padding:5px 7px;border-radius:4px;background:var(--chip);color:var(--ink-2);white-space:nowrap}
 .dk-m .dk-st{background:transparent;color:var(--orange-02);border:1px solid currentColor;padding:4px 7px}
 .dk-m .dk-st::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:currentColor;margin-right:6px;vertical-align:1px}
-@media (max-width:1000px){.sr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:640px){.sr-grid{grid-template-columns:minmax(0,1fr)}.sr-grid .dk-card:first-child{grid-column:auto}.dk-card:hover .dk-stack i:nth-child(2){transform:translate(28px,-18px) rotate(4deg)}}
+@media (max-width:1000px){.sr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sr-grid .dk-card{grid-column:auto}.sr-grid .dk-card.dk-lead{grid-column:span 2}}
+@media (max-width:640px){.sr-grid{grid-template-columns:minmax(0,1fr)}.sr-grid .dk-card,.sr-grid .dk-card.dk-lead{grid-column:auto}.dk-card:hover .dk-stack i:nth-child(2){transform:translate(28px,-18px) rotate(4deg)}}
 
 /* deck page */
 .dk-sub{margin-top:22px;max-width:40em;font-size:clamp(17px,1.5vw,21px);line-height:1.45;letter-spacing:-.02em;color:var(--grey)}
@@ -1003,6 +1004,7 @@ const HOMEICON = ["/assets/69bd8e3466f565ef.webp", "/assets/5b8f7fd8590504ea.web
 
 /* [company, year, title, slug | "request", category p/d/b/o, tag] — order = display order */
 const STRATS = window.STRAT_DOCS || [];
+const LEAD_DECKS = ["renmoney-design-strategy-2025","credit-direct-design-strategy"];
 const STRAT = Object.fromEntries(STRATS.map((d,i)=>[d.slug,i]));
 const WORK_ALL = [
   ["Renmoney MFB","2024","Loan Flow Optimization","renmoney-loan-optimization","p"],
@@ -1665,7 +1667,7 @@ const unitOf = d => isTall(d.dims[0]) ? "pages" : "slides";
 const chRanges = d => d.chapters.map(([a,t,n],i)=>({a, b:(d.chapters[i+1]?d.chapters[i+1][0]:d.n+1)-1, t, n}));
 
 function DeckCard(d, big){
-  return `<a class="dk-card" href="#work/${d.slug}" data-cur="Open deck" data-r>
+  return `<a class="dk-card${big?" dk-lead":""}" href="#work/${d.slug}" data-cur="Open deck" data-r>
     <span class="dk-stack"><i></i><i></i><img src="${d.cover.src}" width="${d.cover.w}" height="${d.cover.h}" alt="${esc(d.title)}, cover" loading="lazy" decoding="async"></span>
     <span class="dk-info"><span class="dk-k">${esc(d.client)} · ${d.year}</span><span class="dk-t">${esc(d.title)}</span>
       <span class="dk-m"><span>${esc(d.kind)}</span>${d.status?`<span class="dk-st">${esc(d.status)}</span>`:""}<span>${d.n} ${unitOf(d)}</span></span></span></a>`;
@@ -1676,7 +1678,7 @@ function StrategyRoom(){
     <div class="shead"><h2 class="h-xl" data-r>${split("Strategy room")}<sup>(${pad2(STRATS.length)})</sup></h2><span class="sr-nda">${LOCK_IC}Slides under NDA</span></div>
     <div class="row nb" style="padding-top:0"><p class="lab">Decks, plans and pitches</p><div>
       <p class="sr-intro" data-r>The thinking behind the screens. Direction, plans, pitches and reports I wrote for CEOs, product leads and teams. <span class="g">The story behind each one is open to everyone; the slides unlock with an access code.</span></p>
-      <div class="sr-grid">${STRATS.map((d,i)=>DeckCard(d,i===0)).join("")}</div></div></div></section>`;
+      <div class="sr-grid">${[...STRATS.filter(d=>LEAD_DECKS.includes(d.slug)),...STRATS.filter(d=>!LEAD_DECKS.includes(d.slug))].map(d=>DeckCard(d,LEAD_DECKS.includes(d.slug))).join("")}</div></div></div></section>`;
 }
 
 function Deck(slug){
