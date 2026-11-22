@@ -561,6 +561,13 @@ a.ix-r:hover .arr{transform:translate(2px,-2px)}
 .rq-ok{margin-top:20px;max-width:480px;padding:14px 16px;border:1px solid var(--pill-line);border-radius:12px;color:var(--grey);font-size:14px;line-height:1.5;text-align:left}
 .rq-ok b{color:var(--white);font-weight:600}
 .dk-grant{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--grey)}
+.dk-conf{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start;padding:16px 18px;border:1px solid var(--card-line);border-radius:12px;background:var(--panel);margin-bottom:14px}
+.dk-conf .lkic{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--lock-tint);color:var(--orange-02)}
+.dk-conf .lkic svg{width:13px;height:13px}
+.dk-conf p{margin:0;font-size:13px;line-height:1.5;color:var(--grey);max-width:60ch}
+.dk-conf b{display:block;font-weight:500;font-size:14px;color:var(--white);margin-bottom:2px}
+.pv-conf{font-size:12px;color:var(--orange-02);letter-spacing:-.01em;text-align:center;flex:1;padding:0 16px}
+@media (max-width:640px){.pv-conf{display:none}}
 
 .shake{animation:shake .4s}
 @keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
@@ -1694,7 +1701,8 @@ function Deck(slug){
       ${Array.from({length:c.b-c.a+1},(_,j)=>slide(c.a-1+j)).join("")}</div>`).join("");
   const toc = chs.map((c,i)=>`<li data-ch="${i}"${i===0?' aria-current="true"':""}><a href="#work/${slug}" data-go="dc${i}"><span>${pad2(i+1)}</span>${esc(c.t)}<p class="dk-note">${esc(c.n)}</p></a></li>`).join("");
   const g = VAULT.ginfo();
-  const lock = open ? (VAULT.byCode() || !g ? "" : `<p class="dk-grant"><i class="dot"></i>Shared with you by Dammy · access ends ${new Date(g.exp).toLocaleString([], {weekday:"short", hour:"numeric", minute:"2-digit"})}</p>`) : `<div class="dk-lockbox" data-r><span class="lkic">${LOCK_IC}</span><div>
+  const conf = `<div class="dk-conf" role="note"><span class="lkic">${LOCK_IC}</span><p><b>Confidential. View on this website only.</b>Please don’t download, screenshot or share these ${unit}. They’re shown here under NDA.</p></div>`;
+  const lock = open ? conf + (VAULT.byCode() || !g ? "" : `<p class="dk-grant"><i class="dot"></i>Shared with you by Dammy · access ends ${new Date(g.exp).toLocaleString([], {weekday:"short", hour:"numeric", minute:"2-digit"})}</p>`) : `<div class="dk-lockbox" data-r><span class="lkic">${LOCK_IC}</span><div>
       <p class="dk-lb-t">The ${unit} are under NDA</p>
       <p class="gp">Enter the access code Dammy shared with you to read all ${n} ${unit}. The story above stays open to everyone.</p>
       <form class="gate-f" data-gate="deck:${slug}" autocomplete="off"><input name="code" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="····" aria-label="Access code" autocomplete="one-time-code" required><button class="btn" type="submit">Unlock</button></form>
@@ -1746,7 +1754,7 @@ function present(slug, start){
   const d = STRATS[STRAT[slug]]; if(!d || !VAULT.sOpen(slug)) return;
   const chs = chRanges(d); let k = start || 0;
   const el = document.createElement("div"); el.className = "dk-pres"; el.setAttribute("role","dialog"); el.setAttribute("aria-modal","true"); el.setAttribute("aria-label", d.title+", presentation");
-  el.innerHTML = `<header><span><b>${esc(d.title)}</b> · ${esc(d.client)}</span><button type="button" data-x>Close ✕</button></header>
+  el.innerHTML = `<header><span><b>${esc(d.title)}</b> · ${esc(d.client)}</span><span class="pv-conf">Confidential · view on this website only · no downloads or screenshots</span><button type="button" data-x>Close ✕</button></header>
     <div class="stage"><img alt=""></div>
     <footer><p class="note"></p><div class="nav"><span class="ct" style="align-self:center;margin-right:10px"></span><button type="button" data-p aria-label="Previous">←</button><button type="button" data-n aria-label="Next">→</button></div></footer><span class="bar"><i></i></span>`;
   document.body.appendChild(el); requestAnimationFrame(()=>el.classList.add("on"));
